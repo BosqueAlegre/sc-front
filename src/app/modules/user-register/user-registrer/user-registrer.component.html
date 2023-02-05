@@ -1,0 +1,98 @@
+<ion-content>
+  <!-- <registrer-member></registrer-member> -->
+  <ion-button expand="block" (click)="openModal()"
+    >Agregar miembro al grupo</ion-button
+  >
+  <ion-grid>
+    <ion-row>
+      <ion-col size="12"
+        ><ion-button (click)="addFile()">Agregar excel</ion-button>
+      </ion-col>
+      <ion-col
+        size="6"
+        size-md="4"
+        size-lg="4"
+        *ngFor="let data of borrarTabla"
+      >
+        <ion-card class="carta">
+          <ion-card-header>
+            <ion-card-title class="title"
+              >{{ data.name }} {{ data.patherLastName }}
+              {{ data.motherLastName }}</ion-card-title
+            >
+            <ion-card-subtitle
+              >Fecha Nacimiento:
+              {{ formatDate(data.dateOfBirth) }}</ion-card-subtitle
+            >
+            <ion-card-subtitle>Cédula: {{ data.ci }}</ion-card-subtitle>
+            <ion-card-subtitle>Género: {{ data.gender }}</ion-card-subtitle>
+            <!-- <ion-card-subtitle
+              >Enfermedad: {{ data.desEnfermedad }}</ion-card-subtitle
+            > -->
+            <div>
+              <div [ngClass]="{ op: !platform.is('mobileweb') }">
+                <mat-icon class="edit" (click)="edit(data)">edit</mat-icon>
+                <mat-icon class="delete" (click)="delete(data._id)"
+                  >delete</mat-icon
+                >
+              </div>
+            </div>
+          </ion-card-header>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <!-- <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef class="mobile-label">Nombre</th>
+      <td mat-cell *matCellDef="let element">{{ element.nombre }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="last_name">
+      <th mat-header-cell *matHeaderCellDef class="mobile-label">Apellido</th>
+      <td mat-cell *matCellDef="let element">{{ element.apellido }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="fn">
+      <th mat-header-cell *matHeaderCellDef class="mobile-label">
+        Fecha de nacimiento
+      </th>
+      <td mat-cell *matCellDef="let element">{{ element.fecha_n }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="ci">
+      <th mat-header-cell *matHeaderCellDef class="mobile-label">Cédula</th>
+      <td mat-cell *matCellDef="let element">{{ element.ci }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="e">
+      <th mat-header-cell *matHeaderCellDef class="mobile-label">Enfermedad</th>
+      <td mat-cell *matCellDef="let element">
+        {{ element.enfermedad ? "Si" : "No" }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="des">
+      <th mat-header-cell *matHeaderCellDef class="mobile-label">
+        Descripción enfermedad
+      </th>
+      <td mat-cell *matCellDef="let element">{{ element.desEnfermedad }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="options">
+      <th mat-header-cell *matHeaderCellDef class="mobile-label">Opciones</th>
+      <td mat-cell *matCellDef="let element; let i = index">
+        <div class="options">
+          <mat-icon class="edit" (click)="edit(element)">edit</mat-icon>
+          <mat-icon class="delete" (click)="delete(element._id)"
+            >delete</mat-icon
+          >
+        </div>
+      </td>
+    </ng-container>
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+  </table> -->
+</ion-content>

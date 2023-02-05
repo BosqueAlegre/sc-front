@@ -1,0 +1,63 @@
+@import "../../../../global.scss";
+
+table {
+  width: 100%;
+}
+
+.options {
+  display: flex;
+  align-items: center;
+  justify-content: right;
+
+  gap: 15px;
+
+  .edit {
+    color: $primary;
+    cursor: pointer;
+  }
+  .delete {
+    color: red;
+    cursor: pointer;
+  }
+}
+
+@media (max-width: 600px) {
+  .mobile-label {
+    width: 80px;
+    display: inline-block;
+    font-weight: bold;
+  }
+
+  .mat-header-row {
+    display: none;
+  }
+
+  .mat-row {
+    flex-direction: column;
+    align-items: start;
+    padding: 8px 24px;
+  }
+}
+
+.carta {
+  position: relative;
+}
+.op {
+  position: absolute;
+  top: 15px;
+  right: 30px;
+}
+
+.edit {
+  color: $primary;
+  cursor: pointer;
+}
+.delete {
+  margin-left: 10px;
+
+  color: red;
+  cursor: pointer;
+}
+.title {
+  width: 82%;
+}

@@ -1,0 +1,25 @@
+.cardC {
+  width: 370px;
+  // height: 350px;
+  max-width: 400px;
+  max-height: 650px;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}
+.header {
+  position: relative;
+  .iconH {
+    position: absolute;
+    left: 20px;
+    font-size: 25px;
+    cursor: pointer;
+    z-index: 1;
+  }
+}
+
+.olviodo {
+  margin-top: 5px;
+  margin-bottom: 5px;
+  cursor: pointer;
+}

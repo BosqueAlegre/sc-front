@@ -1,0 +1,160 @@
+<ion-content class="content">
+  <ion-card class="cardC">
+    <img
+      alt="Silhouette of mountains"
+      src="../../../../assets/image/fondo.webp"
+    />
+
+    <ion-card-header *ngIf="!user">
+      <ion-card-title>Ingresar</ion-card-title>
+    </ion-card-header>
+    <ion-card-content *ngIf="!user">
+      <ion-radio-group
+        (ngModelChange)="disabledValid($event)"
+        [(ngModel)]="user"
+        value="strawberries"
+      >
+        <ion-item>
+          <ion-label>Administrador</ion-label>
+          <ion-radio slot="end" value="Administrador"></ion-radio>
+        </ion-item>
+
+        <ion-item>
+          <ion-label>Jefe de calle</ion-label>
+          <ion-radio slot="end" value="calle"></ion-radio>
+        </ion-item>
+
+        <ion-item>
+          <ion-label>Jefe de familia</ion-label>
+          <ion-radio slot="end" value="familia"></ion-radio>
+        </ion-item>
+      </ion-radio-group>
+    </ion-card-content>
+
+    <ion-card-header class="header" *ngIf="user && !olvido">
+      <ion-icon
+        class="iconH"
+        (click)="press()"
+        name="arrow-back-outline"
+      ></ion-icon>
+      <ion-card-title>Ingresar como {{ user }}</ion-card-title>
+    </ion-card-header>
+    <ion-card-content *ngIf="user && !olvido">
+      <form [formGroup]="form" class="example-form">
+        <ion-list>
+          <ion-item *ngIf="user != 'Administrador'">
+            <ion-label>Cédula</ion-label>
+            <ion-input
+              type="number"
+              formControlName="ci"
+              placeholder="Introduce tu cédula de identidad"
+            ></ion-input>
+          </ion-item>
+
+          <ion-item *ngIf="user == 'Administrador'">
+            <ion-label>Ingrese su correo</ion-label>
+            <ion-input
+              formControlName="email"
+              type="email"
+              placeholder="correo@dominio.com"
+            ></ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-label>Contraseña</ion-label>
+            <ion-input formControlName="password" type="password"></ion-input>
+          </ion-item>
+        </ion-list>
+        <div *ngIf="!olvido" class="olviodo" (click)="olvidoF()">
+          ¿Olvido su contraseña?
+        </div>
+        <!-- correo -->
+        <!-- <mat-form-field
+          *ngIf="user == 'Administrador'"
+          class="example-full-width"
+          appearance="outline"
+        >
+          <mat-label>Email</mat-label>
+          <input
+            type="email"
+            matInput
+            formControlName="email"
+            placeholder="Ex. pat@example.com"
+          />
+          <mat-error
+            *ngIf="
+              form.controls.email.hasError('email') &&
+              !form.controls.email.hasError('required')
+            "
+          >
+            Please enter a valid email address
+          </mat-error>
+          <mat-error *ngIf="form.controls.email.hasError('required')">
+            Email is <strong>required</strong>
+          </mat-error>
+        </mat-form-field> -->
+
+        <!-- Cedula -->
+        <!-- <mat-form-field
+          *ngIf="user != 'Administrador'"
+          class="example-form-field"
+          appearance="outline"
+        >
+          <mat-label>Clearable input</mat-label>
+          <input formControlName="ci" matInput type="text" />
+        </mat-form-field> -->
+        <!-- Contraseña -->
+        <!-- <mat-form-field appearance="outline" class="example-full-width">
+          <mat-label>Contraseña</mat-label>
+          <input
+            [type]="type ? 'text' : 'password'"
+            matInput
+            placeholder="Introdusca su contraseña"
+            formControlName="password"
+          />
+          <mat-icon (click)="type = !type" matSuffix
+            >remove_red_eye_off</mat-icon
+          >
+        </mat-form-field> -->
+      </form>
+      <ion-button *ngIf="!olvido" (click)="ingresar()" [disabled]="!form.valid"
+        >Ingresar</ion-button
+      >
+    </ion-card-content>
+
+    <ion-card-header class="header" *ngIf="olvido">
+      <ion-icon
+        class="iconH"
+        (click)="olvido = false"
+        name="arrow-back-outline"
+      ></ion-icon>
+      <ion-card-title>Recuperar contraseña</ion-card-title>
+    </ion-card-header>
+    <ion-card-content *ngIf="olvido">
+      <form [formGroup]="formRecupera" class="example-form">
+        <ion-list>
+          <ion-item *ngIf="user != 'Administrador'">
+            <ion-label>Cédula</ion-label>
+            <ion-input
+              type="number"
+              formControlName="ci"
+              placeholder="Introduce tu cédula de identidad"
+            ></ion-input>
+          </ion-item>
+
+          <ion-item *ngIf="user == 'Administrador'">
+            <ion-label>Ingrese su correo</ion-label>
+            <ion-input
+              formControlName="email"
+              type="email"
+              placeholder="correo@dominio.com"
+            ></ion-input>
+          </ion-item>
+        </ion-list>
+      </form>
+      <ion-button (click)="ingresar()" [disabled]="!formRecupera.valid"
+        >Recuperar</ion-button
+      >
+    </ion-card-content>
+  </ion-card>
+</ion-content>

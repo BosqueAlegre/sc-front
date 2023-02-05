@@ -1,0 +1,108 @@
+<ion-header>
+  <ion-toolbar color="secondary">
+    <ion-title class="pd0">Agregar miembro al grupo familiar</ion-title>
+    <ion-buttons slot="end">
+      <ion-icon
+        class="iclose"
+        (click)="cancel()"
+        name="close-circle-outline"
+      ></ion-icon>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content class="ion-padding">
+  <form [formGroup]="form">
+    <ion-grid>
+      <ion-row>
+        <ion-col size="12">
+          <ion-item>
+            <ion-label position="floating">Cédula</ion-label>
+            <ion-input
+              ci
+              type="text"
+              formControlName="ci"
+              placeholder="Ingresa la cédula de identidad"
+            ></ion-input
+          ></ion-item>
+        </ion-col>
+        <ion-col size="12">
+          <ion-item>
+            <ion-label position="floating">Nombres</ion-label>
+            <ion-input
+              formControlName="name"
+              placeholder="Ingresa los nombres"
+            ></ion-input>
+          </ion-item>
+        </ion-col>
+        <ion-col size="12">
+          <ion-item>
+            <ion-label position="floating">Primer pellido</ion-label>
+            <ion-input
+              formControlName="patherLastName"
+              placeholder="Ingresa los apellidos"
+            ></ion-input
+          ></ion-item>
+        </ion-col>
+        <ion-col size="12">
+          <ion-item>
+            <ion-label position="floating">Segundo Apellido</ion-label>
+            <ion-input
+              formControlName="motherLastName"
+              placeholder="Ingresa los apellidos"
+            ></ion-input
+          ></ion-item>
+        </ion-col>
+        <ion-col size="12">
+          <ion-radio-group formControlName="gender">
+            <ion-item>
+              <ion-label>Masculino</ion-label>
+              <ion-radio slot="end" value="M"></ion-radio>
+            </ion-item>
+
+            <ion-item>
+              <ion-label>Femenino</ion-label>
+              <ion-radio slot="end" value="F"></ion-radio>
+            </ion-item>
+          </ion-radio-group>
+        </ion-col>
+
+        <ion-col size="12">
+          <ion-item>
+            <ion-label position="floating">Fecha de nacimiento</ion-label>
+            <ion-input
+              type="date"
+              formControlName="dateOfBirth"
+              placeholder="Ingresa su fecha de nacimiento"
+            ></ion-input>
+          </ion-item>
+        </ion-col>
+        <!-- <ion-col size="12">
+          <ion-item>
+            <ion-checkbox
+              formControlName="enfermedad"
+              slot="start"
+            ></ion-checkbox>
+            <ion-label>Padese enfermedad</ion-label>
+          </ion-item>
+        </ion-col>
+        <ion-col *ngIf="form.value.enfermedad" size="12">
+          <ion-item>
+            <ion-label position="floating">Descripción</ion-label>
+            <ion-textarea
+              formControlName="desEnfermedad"
+              placeholder="Describe la enfermedad"
+            ></ion-textarea>
+          </ion-item>
+        </ion-col> -->
+        <ion-col class="buttons" size="6">
+          <ion-button (click)="cancel()" color="danger">Cancelar</ion-button>
+        </ion-col>
+        <ion-col class="buttons" size="6">
+          <ion-button (click)="confirm()" [disabled]="!form.valid"
+            >Agregar</ion-button
+          >
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </form>
+</ion-content>
