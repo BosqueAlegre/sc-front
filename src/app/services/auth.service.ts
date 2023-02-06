@@ -10,9 +10,7 @@ import { Router } from '@angular/router';
 })
 
 export class AuthService {
-
   url = environment.url_api;
-  user = null;
 
   constructor(
     private http: HttpClient,
@@ -20,6 +18,7 @@ export class AuthService {
     private router: Router,
   ) {}
 
+  // INICIAR SESION
   login(data: any) {
     return this.http.post<{ message: string, token: string }>(`${this.url}/auth/login`, data)
       .pipe(
@@ -30,11 +29,20 @@ export class AuthService {
       );
   }
 
+  // RECUPERAR CONTRASEÑA
   recoverPassword(data: any) {
     return this.http.post<{ message: string }>(`${this.url}/auth/recover`, data)
     .pipe(pluck('message'));
   }
 
+  // CAMBIAR CONTRASEÑA ACTUAL
+  // DEBE TENER UNA SESION ACTIVA
+  changePassword(password: string, newPassword: string) {
+    return this.http.post<{ message: string }>(`${this.url}/auth/change-password`, { password, newPassword })
+    .pipe(pluck('message'));
+  }
+
+  // CERRAR SESION
   logout() {
     this.storage.remove(environment.token_key);
     this.router.navigate(['/login']);
