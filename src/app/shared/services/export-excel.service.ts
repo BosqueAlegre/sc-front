@@ -92,7 +92,6 @@ export class ExportExcelService {
       }
       family.push(user);
     }
-    console.log(family);
     return family;
   }
 

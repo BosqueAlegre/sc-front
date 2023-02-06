@@ -16,7 +16,6 @@ export class AuthService {
     private storage: Storage,
     private router: Router
   ) {}
-  currentUser: any;
   // INICIAR SESION
   login(data: any) {
     return this.http

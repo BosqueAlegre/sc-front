@@ -5,6 +5,7 @@ import { RegistrerMemberComponent } from '../components/registrer-member/registr
 import { MatTableDataSource } from '@angular/material/table';
 import { Platform } from '@ionic/angular';
 import { ExportExcelService } from 'src/app/shared/services/export-excel.service';
+import { AuthService } from 'src/app/services/account.service';
 export interface IUser {
   _id: string;
   ci: number;
@@ -30,7 +31,8 @@ export class UserRegistrerComponent implements OnInit {
   constructor(
     private modalCtrl: ModalController,
     public platform: Platform,
-    public exportExcel: ExportExcelService
+    public exportExcel: ExportExcelService,
+    public authService: AuthService
   ) {}
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
@@ -46,6 +48,9 @@ export class UserRegistrerComponent implements OnInit {
   dataSource: MatTableDataSource<IUser>;
   ngOnInit() {
     this.setData(this.borrarTabla);
+    this.authService.me().subscribe((res) => {
+      console.log(res);
+    });
   }
 
   async openModal() {
