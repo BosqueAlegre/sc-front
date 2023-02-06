@@ -1,9 +1,11 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Workbook } from 'exceljs';
+import { saveAs } from 'file-saver';
 
 @Injectable()
 export class ExportExcelService {
-  constructor() {}
+  constructor(private http: HttpClient) {}
 
   async importFamilyCharge(formFile: any) {
     const { workbook, worksheet } = await this.initWorkbookExcel(formFile);
@@ -103,7 +105,6 @@ export class ExportExcelService {
         familyBoss.push(worksheet.getCell(`${letter}${number}`).value);
       }
     }
-    console.log(familyBoss);
   }
 
   async initWorkbookExcel(formFile: any) {
@@ -113,5 +114,84 @@ export class ExportExcelService {
   }
   async importExcel(workbook: any, formFile: any) {
     await workbook.xlsx.load(formFile);
+  }
+
+  //Export excel
+  async exportExcel(array: any) {
+    console.log(array);
+    const { workbook, worksheet } = await this.getWorkbook();
+    this.setValues(worksheet, array);
+    this.saveExport(workbook);
+  }
+  async getExcel(workbook: any) {
+    let formFile: any = await this.http
+      .get('assets/files/Formato-carga-familiar.xlsx', {
+        observe: 'response',
+        responseType: 'blob',
+      })
+      .toPromise();
+    formFile = formFile.body;
+    await workbook.xlsx.load(formFile);
+  }
+  async getWorkbook() {
+    const workbook = new Workbook();
+    await this.getExcel(workbook);
+    return { workbook, worksheet: workbook.getWorksheet('Formato') };
+  }
+  setValues(worksheet: any, array: any) {
+    let letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I'];
+    let n = 0;
+    for (let i = 2; i <= array.length + 1; i++) {
+      console.log(array[n].name, array.length + 2, n, i);
+      for (let letter of letters) {
+        switch (letter) {
+          case 'A':
+            worksheet.getCell(`${letter}${i}`).value = array[n].ci;
+            console.log(worksheet.getCell(`${letter}${i}`).value);
+            break;
+          case 'B':
+            worksheet.getCell(`${letter}${i}`).value = array[n].name;
+            break;
+          case 'C':
+            worksheet.getCell(`${letter}${i}`).value = array[n].patherLastName;
+            break;
+          case 'D':
+            worksheet.getCell(`${letter}${i}`).value = array[n].motherLastName;
+            break;
+          case 'E':
+            worksheet.getCell(`${letter}${i}`).value = array[n].email;
+            break;
+          case 'F':
+            worksheet.getCell(`${letter}${i}`).value = array[n].phone;
+            break;
+          case 'G':
+            worksheet.getCell(`${letter}${i}`).value = array[n].gender;
+            break;
+          case 'H':
+            worksheet.getCell(`${letter}${i}`).value = `${new Date(
+              array[n].dateOfBirth
+            ).getDate()}/${
+              new Date(array[n].dateOfBirth).getMonth() + 1
+            }/${new Date(array[n].dateOfBirth).getFullYear()}`;
+            break;
+          case 'I':
+            worksheet.getCell(`${letter}${i}`).value = array[n].apartment;
+            break;
+          default:
+            break;
+        }
+      }
+      n++;
+    }
+  }
+  async saveExport(workbook: any) {
+    const nameDocument = `Listado ${new Date().getDate()}/${
+      new Date().getMonth() + 1
+    }/${new Date().getFullYear()}`;
+    const typeDocument =
+      'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
+    const data = await workbook.xlsx.writeBuffer();
+    const blob = new Blob([data], { type: typeDocument });
+    saveAs(blob, nameDocument + '.xlsx');
   }
 }

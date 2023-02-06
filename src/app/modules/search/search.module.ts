@@ -6,6 +6,7 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { IonicModule } from '@ionic/angular';
 import { MaterialModule } from 'src/app/material.module';
+import { ExportExcelService } from 'src/app/shared/services/export-excel.service';
 import { SearchComponent } from './search/search.component';
 
 const routes: Routes = [
@@ -25,6 +26,6 @@ const routes: Routes = [
     ReactiveFormsModule,
     MaterialModule,
   ],
-  providers: [],
+  providers: [ExportExcelService],
 })
 export class SearchModule {}
