@@ -1,15 +1,55 @@
 <ion-content>
-  <ion-button (click)="export()">export</ion-button>
-  <mat-form-field>
-    <mat-label>Filter</mat-label>
-    <input
-      matInput
-      (keyup)="applyFilter($event)"
-      placeholder="Ex. Mia"
-      #input
-    />
-  </mat-form-field>
+  <ion-button (click)="export()">Exportar Usuarios</ion-button>
+  <ion-button (click)="limpiarGenero()">Limpiar género</ion-button>
+  <ion-button (click)="limpiarTorre()">Limpiar Torre</ion-button>
 
+  <div>
+    <ion-grid>
+      <ion-row>
+        <ion-col size="4">
+          <mat-form-field class="disp">
+            <mat-label>Filtro edad</mat-label>
+            <input
+              matInput
+              (keyup)="applyFilter($event)"
+              placeholder="25-50"
+              #input
+            />
+          </mat-form-field>
+        </ion-col>
+        <ion-col size="4">
+          <ion-radio-group
+            [(ngModel)]="gender"
+            (ngModelChange)="changeGender($event)"
+          >
+            <div>
+              <ion-label>Masculino</ion-label>
+              <ion-radio value="M"></ion-radio>
+            </div>
+            <div>
+              <ion-label>Femenino</ion-label>
+              <ion-radio value="F"></ion-radio>
+            </div>
+          </ion-radio-group>
+        </ion-col>
+        <ion-col size="4">
+          <ion-radio-group
+            [(ngModel)]="tower"
+            (ngModelChange)="changeTower($event)"
+          >
+            <div>
+              <ion-label>Torre A</ion-label>
+              <ion-radio value="A"></ion-radio>
+            </div>
+            <div>
+              <ion-label>Torre B</ion-label>
+              <ion-radio value="B"></ion-radio>
+            </div>
+          </ion-radio-group>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
   <div class="containerTable mat-elevation-z8">
     <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
       <!--- Note that these columns can be defined in any order.

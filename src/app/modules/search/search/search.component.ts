@@ -35,6 +35,7 @@ export class SearchComponent implements OnInit {
       dateOfBirth: 914198400000,
       // enfermedad: false,
       // desEnfermedad: '',
+      apartment: 'A4',
     },
     {
       _id: 'sdasdasd',
@@ -46,21 +47,35 @@ export class SearchComponent implements OnInit {
       dateOfBirth: 75772800000,
       // enfermedad: false,
       // desEnfermedad: '',
+      apartment: 'A4',
     },
     {
       _id: 'sdasdasd',
       name: 'Orlando',
       patherLastName: 'aguiñe',
       motherLastName: 'grillo',
-      gender: 'F',
+      gender: 'M',
       ci: 111,
       dateOfBirth: 800841600000,
       // enfermedad: false,
       // desEnfermedad: '',
+      apartment: 'B4',
     },
   ];
   ngOnInit() {
     this.dataSource = new MatTableDataSource(this.ELEMENT_DATA);
+    this.mens = this.dataSource.filteredData.filter((data) => {
+      return data.gender == 'M';
+    });
+    this.womens = this.dataSource.filteredData.filter((data) => {
+      return data.gender == 'F';
+    });
+    this.a = this.dataSource.filteredData.filter((data) => {
+      return data.apartment[0] == 'A';
+    });
+    this.b = this.dataSource.filteredData.filter((data) => {
+      return data.apartment[0] == 'B';
+    });
     this.dataSource.filterPredicate = (data: any, filter: string) => {
       let ageRange = filter.split('-');
       let minAge = +ageRange[0];
@@ -95,8 +110,67 @@ export class SearchComponent implements OnInit {
     return `${d.getDate()}/${d.getMonth() + 1}/${d.getFullYear()} `;
   }
 
-  desde: number;
-  hasta: number;
+  gender: string;
+  mens: any;
+  womens: any;
+  changeGender(value: any) {
+    this.gender = value;
+    let filter = [];
+    if (this.gender == 'M') {
+      filter = this.mens;
+      this.dataSource = new MatTableDataSource(this.mens);
+    } else if (this.gender == 'F') {
+      filter = this.womens;
+      this.dataSource = new MatTableDataSource(this.womens);
+    }
+    if (this.tower == 'A') {
+      filter = this.dataSource.filteredData.filter((data) => {
+        return data.apartment[0] == 'A';
+      });
+      this.dataSource = new MatTableDataSource(filter);
+    } else if (this.tower == 'B') {
+      filter = this.dataSource.filteredData.filter((data) => {
+        return data.apartment[0] == 'B';
+      });
+      this.dataSource = new MatTableDataSource(filter);
+    }
+  }
+
+  tower: string;
+  a: any;
+  b: any;
+  changeTower(value: any) {
+    this.tower = value;
+    let filter = [];
+
+    if (this.tower == 'A') {
+      filter = this.a;
+      this.dataSource = new MatTableDataSource(this.a);
+    } else if (this.tower == 'B') {
+      filter = this.b;
+      this.dataSource = new MatTableDataSource(this.b);
+    }
+
+    if (this.gender == 'M') {
+      filter = this.dataSource.filteredData.filter((data) => {
+        return data.gender == 'M';
+      });
+      this.dataSource = new MatTableDataSource(filter);
+    } else if (this.gender == 'F') {
+      filter = this.dataSource.filteredData.filter((data) => {
+        return data.gender == 'F';
+      });
+      this.dataSource = new MatTableDataSource(filter);
+    }
+  }
+  limpiarGenero() {
+    this.gender = '';
+    this.dataSource = new MatTableDataSource(this.ELEMENT_DATA);
+  }
+  limpiarTorre() {
+    this.tower = '';
+    this.dataSource = new MatTableDataSource(this.ELEMENT_DATA);
+  }
   export() {
     this.exportExcel.exportExcel(this.dataSource.filteredData);
   }

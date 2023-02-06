@@ -118,7 +118,6 @@ export class ExportExcelService {
 
   //Export excel
   async exportExcel(array: any) {
-    console.log(array);
     const { workbook, worksheet } = await this.getWorkbook();
     this.setValues(worksheet, array);
     this.saveExport(workbook);
@@ -130,12 +129,12 @@ export class ExportExcelService {
         responseType: 'blob',
       })
       .toPromise();
-    formFile = formFile.body;
-    await workbook.xlsx.load(formFile);
+    await workbook.xlsx.load(formFile.body);
   }
   async getWorkbook() {
     const workbook = new Workbook();
     await this.getExcel(workbook);
+
     return { workbook, worksheet: workbook.getWorksheet('Formato') };
   }
   setValues(worksheet: any, array: any) {
