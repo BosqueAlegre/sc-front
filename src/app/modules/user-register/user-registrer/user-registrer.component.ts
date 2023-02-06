@@ -131,7 +131,7 @@ export class UserRegistrerComponent implements OnInit {
       const file: File = ev.target.files[0];
       const formData = new FormData();
       formData.append('file', file);
-      await this.exportExcel.import(file);
+      await this.exportExcel.importFamilyCharge(file);
     };
   }
 }

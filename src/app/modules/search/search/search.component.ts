@@ -4,6 +4,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { filter } from 'rxjs';
+import { ExportExcelService } from 'src/app/shared/services/export-excel.service';
 import { IUser } from '../../user-register/user-registrer/user-registrer.component';
 
 @Component({
@@ -14,7 +15,7 @@ import { IUser } from '../../user-register/user-registrer/user-registrer.compone
 export class SearchComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
-  constructor(public fb: FormBuilder) {}
+  constructor(public fb: FormBuilder, public exportExcel: ExportExcelService) {}
   displayedColumns: string[] = [
     'name',
     'patherLastName',
@@ -65,17 +66,6 @@ export class SearchComponent implements OnInit {
       let minAge = +ageRange[0];
       let maxAge = +ageRange[1];
       let age; //= new Date().getFullYear() - new Date('1998-12-21').getFullYear();
-      // if (new Date().getMonth() > new Date('1998-12-21').getMonth()) {
-      //   age = new Date().getFullYear() - new Date('1998-12-21').getFullYear();
-      // } else if (
-      //   new Date().getMonth() == new Date('1998-12-21').getMonth() &&
-      //   new Date().getDate() >= new Date('1998-12-21').getDate()
-      // ) {
-      //   age = new Date().getFullYear() - new Date('1998-12-21').getFullYear();
-      // } else {
-      //   age =
-      //     new Date().getFullYear() - new Date('1998-12-21').getFullYear() - 1;
-      // }
       age =
         new Date().getMonth() > new Date(data.dateOfBirth).getMonth() ||
         (new Date().getMonth() == new Date(data.dateOfBirth).getMonth() &&
@@ -107,7 +97,7 @@ export class SearchComponent implements OnInit {
 
   desde: number;
   hasta: number;
-  filterByEge() {
-    console.log('Estoy');
+  export() {
+    this.exportExcel.exportExcel(this.dataSource.filteredData);
   }
 }
