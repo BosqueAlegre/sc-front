@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpBackend, HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Workbook } from 'exceljs';
 import { saveAs } from 'file-saver';
@@ -7,11 +7,11 @@ import { FamilyService } from 'src/app/services/family.service';
 
 @Injectable()
 export class ExportExcelService {
-  constructor(
-    private http: HttpClient,
-    public familyService: FamilyService,
-    public authService: AuthService
-  ) {}
+  private http: HttpClient;
+
+  constructor(private handler: HttpBackend) {
+    this.http = new HttpClient(this.handler);
+  }
 
   async importFamilyCharge(formFile: any) {
     const { workbook, worksheet } = await this.initWorkbookExcel(formFile);

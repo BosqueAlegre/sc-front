@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpBackend, HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import { pluck } from 'rxjs/operators';
 
@@ -10,8 +10,12 @@ export class AuthService {
   url = environment.url_api;
   currentUser: any;
 
-  constructor(private http: HttpClient) {}
+  // constructor(private http: HttpClient) {}
+  private http: HttpClient;
 
+  constructor(private handler: HttpBackend) {
+    this.http = new HttpClient(this.handler);
+  }
   // INFORMACION DEL USUARIO
   me() {
     return this.http
