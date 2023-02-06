@@ -64,18 +64,7 @@ export class SearchComponent implements OnInit {
   ];
   ngOnInit() {
     this.dataSource = new MatTableDataSource(this.ELEMENT_DATA);
-    this.mens = this.dataSource.filteredData.filter((data) => {
-      return data.gender == 'M';
-    });
-    this.womens = this.dataSource.filteredData.filter((data) => {
-      return data.gender == 'F';
-    });
-    this.a = this.dataSource.filteredData.filter((data) => {
-      return data.apartment[0] == 'A';
-    });
-    this.b = this.dataSource.filteredData.filter((data) => {
-      return data.apartment[0] == 'B';
-    });
+
     this.dataSource.filterPredicate = (data: any, filter: string) => {
       let ageRange = filter.split('-');
       let minAge = +ageRange[0];
@@ -91,6 +80,18 @@ export class SearchComponent implements OnInit {
             1;
       return minAge <= age && age <= maxAge;
     };
+    this.mens = this.ELEMENT_DATA.filter((data) => {
+      return data.gender == 'M';
+    });
+    this.womens = this.ELEMENT_DATA.filter((data) => {
+      return data.gender == 'F';
+    });
+    this.a = this.ELEMENT_DATA.filter((data: any) => {
+      return data.apartment[0] == 'A';
+    });
+    this.b = this.ELEMENT_DATA.filter((data: any) => {
+      return data.apartment[0] == 'B';
+    });
   }
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
@@ -100,7 +101,6 @@ export class SearchComponent implements OnInit {
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
-
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
     }
@@ -165,11 +165,38 @@ export class SearchComponent implements OnInit {
   }
   limpiarGenero() {
     this.gender = '';
-    this.dataSource = new MatTableDataSource(this.ELEMENT_DATA);
+    let filter = [];
+    if (this.tower == 'A') {
+      filter = this.ELEMENT_DATA.filter((data: any) => {
+        return data.apartment[0] == 'A';
+      });
+      this.dataSource = new MatTableDataSource(filter);
+    } else if (this.tower == 'B') {
+      filter = this.ELEMENT_DATA.filter((data: any) => {
+        return data.apartment[0] == 'B';
+      });
+      this.dataSource = new MatTableDataSource(filter);
+    } else {
+      this.dataSource = new MatTableDataSource(this.ELEMENT_DATA);
+    }
   }
   limpiarTorre() {
     this.tower = '';
-    this.dataSource = new MatTableDataSource(this.ELEMENT_DATA);
+    let filter = [];
+
+    if (this.gender == 'M') {
+      filter = this.ELEMENT_DATA.filter((data: any) => {
+        return data.gender == 'M';
+      });
+      this.dataSource = new MatTableDataSource(filter);
+    } else if (this.gender == 'F') {
+      filter = this.ELEMENT_DATA.filter((data: any) => {
+        return data.gender == 'F';
+      });
+      this.dataSource = new MatTableDataSource(filter);
+    } else {
+      this.dataSource = new MatTableDataSource(this.ELEMENT_DATA);
+    }
   }
   export() {
     this.exportExcel.exportExcel(this.dataSource.filteredData);
