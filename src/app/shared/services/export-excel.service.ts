@@ -2,10 +2,16 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Workbook } from 'exceljs';
 import { saveAs } from 'file-saver';
+import { AuthService } from 'src/app/services/auth.service';
+import { FamilyService } from 'src/app/services/family.service';
 
 @Injectable()
 export class ExportExcelService {
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    public familyService: FamilyService,
+    public authService: AuthService
+  ) {}
 
   async importFamilyCharge(formFile: any) {
     const { workbook, worksheet } = await this.initWorkbookExcel(formFile);
@@ -86,6 +92,8 @@ export class ExportExcelService {
       }
       family.push(user);
     }
+    console.log(family);
+    return family;
   }
 
   async importFamilyBoss(formFile: any) {
