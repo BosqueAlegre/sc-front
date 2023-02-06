@@ -16,6 +16,10 @@ import { UserService } from './core/service/user.service';
 import { HttpClientModule } from '@angular/common/http';
 import { SharedModule } from './shared/shared.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { HTTP_JWT_INTERCEPTOR } from './shared/services/jwt.interceptor';
+import { HTTP_ERROR_INTERCEPTOR } from './shared/services/error.interceptor';
+import { IonicStorageModule } from '@ionic/storage-angular';
+import { HTTP_LOADING_INTERCEPTOR } from './shared/services/loading.interceptor';
 
 @NgModule({
   declarations: [AppComponent, MenuComponent],
@@ -28,6 +32,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     HttpClientModule,
     SharedModule,
     BrowserAnimationsModule,
+    IonicStorageModule.forRoot(),
   ],
   providers: [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
@@ -35,6 +40,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     LoginGuard,
     MenuService,
     UserService,
+    HTTP_JWT_INTERCEPTOR,
+    HTTP_ERROR_INTERCEPTOR,
+    HTTP_LOADING_INTERCEPTOR
   ],
   bootstrap: [AppComponent],
 })

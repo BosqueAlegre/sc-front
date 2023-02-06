@@ -9,8 +9,15 @@
       <ion-item [href]="item.url">
         <ion-label>{{ item.title }}</ion-label>
         <ion-icon [name]="item.icon" slot="end"></ion-icon>
-      </ion-item></div
-  ></ion-content>
+      </ion-item>
+    </div>
+    <div class="divItem">
+      <ion-item button (click)="logout()">
+        <ion-label>Cerrar sesión</ion-label>
+        <ion-icon name="exit" slot="end"></ion-icon>
+      </ion-item>
+    </div>
+  </ion-content>
 </ion-menu>
 <div class="ion-page" id="main-content">
   <ion-header>

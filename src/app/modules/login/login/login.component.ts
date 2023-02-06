@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { AlertController } from '@ionic/angular';
 import { timeStamp } from 'console';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -9,7 +11,12 @@ import { timeStamp } from 'console';
   styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent implements OnInit {
-  constructor(public fb: FormBuilder, public router: Router) {}
+  constructor(
+    public fb: FormBuilder,
+    public router: Router,
+    private _authService: AuthService,
+    private _alertController: AlertController
+  ) {}
 
   form = this.fb.group({
     email: [''],
@@ -31,9 +38,9 @@ export class LoginComponent implements OnInit {
   }
   olvidoF() {
     this.olvido = true;
-    if (this.user == 'Administrador') {
+    if (this.user === 'Administrador' || this.user === 'calle') {
       this.formRecupera.controls['email'].setValidators([Validators.required]);
-    } else if (this.user == 'calle' || this.user == 'familia') {
+    } else {
       this.formRecupera.controls['ci'].setValidators([Validators.required]);
     }
   }
@@ -42,13 +49,40 @@ export class LoginComponent implements OnInit {
   disabledValid(s: any) {
     if (s == 'Administrador') {
       this.form.controls['email'].setValidators([Validators.required]);
-    } else if (s == 'calle' || s == 'familia') {
+    } else if (s === 'calle' || s === 'familia') {
       this.form.controls['ci'].setValidators([Validators.required]);
     }
   }
 
   ingresar() {
-    sessionStorage.setItem('token', '12345');
-    this.router.navigate(['/register']);
+    const sendDate = {...this.form.value};
+    if (this.user === 'Administrador' || this.user === 'calle') delete sendDate.ci;
+    else {
+      delete sendDate.email;
+      sendDate.ci = `V${sendDate.ci}`;
+    }
+
+    this._authService.login(sendDate).subscribe();
+  }
+
+  recoverPassword() {
+    const sendDate = {...this.formRecupera.value};
+    if (this.user === 'Administrador' || this.user === 'calle') delete sendDate.ci;
+    else {
+      delete sendDate.email;
+      sendDate.ci = `V${sendDate.ci}`;
+    }
+
+    this._authService.recoverPassword(sendDate).subscribe((message: string) => {
+      const alert = this._alertController.create({
+        header: 'Recuperación de contraseña',
+        message,
+        buttons: ['OK'],
+      });
+
+      alert.then((alert) => alert.present());
+      this.formRecupera.reset();
+      this.olvido = false;
+    });
   }
 }

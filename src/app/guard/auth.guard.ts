@@ -1,24 +1,21 @@
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
-import { UserService } from '../core/service/user.service';
+import { CanActivate, Router } from '@angular/router';
+import { Storage } from '@ionic/storage-angular';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
-export class AuthGuard {
+export class AuthGuard implements CanActivate {
   constructor(
-    private readonly userService: UserService,
-    public router: Router
+    public router: Router,
+    private storage: Storage,
   ) {}
-  async canActivate() {
-    let user = await this.userService.isUserAvailable();
-    console.log('ok', user);
 
-    if (user) {
-      return true;
-    } else {
-      this.router.navigate(['/login']);
-      return false;
-    }
+  async canActivate(): Promise<boolean> {
+    const token = await this.storage.get(environment.token_key);
+    if (!!token) return true;
+    this.router.navigate(['/login']);
+    return false;
   }
 }

@@ -4,7 +4,8 @@
 
 export const environment = {
   production: false,
-  url: 'https://my-web-url.com',
+  url_api: 'http://localhost:1337/api/v1',
+  token_key: 'access_token'
 };
 
 /*

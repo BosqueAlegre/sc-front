@@ -42,7 +42,7 @@
     <ion-card-content *ngIf="user && !olvido">
       <form [formGroup]="form" class="example-form">
         <ion-list>
-          <ion-item *ngIf="user != 'Administrador'">
+          <ion-item *ngIf="user !== 'Administrador' && user !== 'calle'">
             <ion-label>Cédula</ion-label>
             <ion-input
               type="number"
@@ -51,7 +51,7 @@
             ></ion-input>
           </ion-item>
 
-          <ion-item *ngIf="user == 'Administrador'">
+          <ion-item *ngIf="user === 'Administrador' || user === 'calle'">
             <ion-label>Ingrese su correo</ion-label>
             <ion-input
               formControlName="email"
@@ -68,56 +68,8 @@
         <div *ngIf="!olvido" class="olviodo" (click)="olvidoF()">
           ¿Olvido su contraseña?
         </div>
-        <!-- correo -->
-        <!-- <mat-form-field
-          *ngIf="user == 'Administrador'"
-          class="example-full-width"
-          appearance="outline"
-        >
-          <mat-label>Email</mat-label>
-          <input
-            type="email"
-            matInput
-            formControlName="email"
-            placeholder="Ex. pat@example.com"
-          />
-          <mat-error
-            *ngIf="
-              form.controls.email.hasError('email') &&
-              !form.controls.email.hasError('required')
-            "
-          >
-            Please enter a valid email address
-          </mat-error>
-          <mat-error *ngIf="form.controls.email.hasError('required')">
-            Email is <strong>required</strong>
-          </mat-error>
-        </mat-form-field> -->
-
-        <!-- Cedula -->
-        <!-- <mat-form-field
-          *ngIf="user != 'Administrador'"
-          class="example-form-field"
-          appearance="outline"
-        >
-          <mat-label>Clearable input</mat-label>
-          <input formControlName="ci" matInput type="text" />
-        </mat-form-field> -->
-        <!-- Contraseña -->
-        <!-- <mat-form-field appearance="outline" class="example-full-width">
-          <mat-label>Contraseña</mat-label>
-          <input
-            [type]="type ? 'text' : 'password'"
-            matInput
-            placeholder="Introdusca su contraseña"
-            formControlName="password"
-          />
-          <mat-icon (click)="type = !type" matSuffix
-            >remove_red_eye_off</mat-icon
-          >
-        </mat-form-field> -->
       </form>
-      <ion-button *ngIf="!olvido" (click)="ingresar()" [disabled]="!form.valid"
+      <ion-button *ngIf="!olvido" (click)="ingresar()" [disabled]="form.invalid"
         >Ingresar</ion-button
       >
     </ion-card-content>
@@ -133,7 +85,7 @@
     <ion-card-content *ngIf="olvido">
       <form [formGroup]="formRecupera" class="example-form">
         <ion-list>
-          <ion-item *ngIf="user != 'Administrador'">
+          <ion-item *ngIf="user !== 'Administrador'">
             <ion-label>Cédula</ion-label>
             <ion-input
               type="number"
@@ -142,7 +94,7 @@
             ></ion-input>
           </ion-item>
 
-          <ion-item *ngIf="user == 'Administrador'">
+          <ion-item *ngIf="user === 'Administrador'">
             <ion-label>Ingrese su correo</ion-label>
             <ion-input
               formControlName="email"
@@ -152,7 +104,7 @@
           </ion-item>
         </ion-list>
       </form>
-      <ion-button (click)="ingresar()" [disabled]="!formRecupera.valid"
+      <ion-button (click)="recoverPassword()" [disabled]="formRecupera.invalid"
         >Recuperar</ion-button
       >
     </ion-card-content>

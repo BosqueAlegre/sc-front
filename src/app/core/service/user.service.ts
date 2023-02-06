@@ -7,7 +7,7 @@ import { environment } from 'src/environments/environment';
 })
 export class UserService {
   currentUser: any = null;
-  readonly baseUrl = `${environment.url}`;
+  readonly baseUrl = `${environment.url_api}`;
 
   constructor(private readonly http: HttpClient) {}
 
