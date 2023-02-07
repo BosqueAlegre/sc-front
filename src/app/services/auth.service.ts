@@ -23,7 +23,8 @@ export class AuthService {
       .pipe(
         tap((response) => {
           this.storage.set(environment.token_key, response.token);
-          this.router.navigate(['/']);
+          location.reload();
+          // this.router.navigate(['/']);
         })
       );
   }
@@ -38,6 +39,7 @@ export class AuthService {
   // CERRAR SESION
   logout() {
     this.storage.remove(environment.token_key);
-    this.router.navigate(['/login']);
+    location.reload();
+    // this.router.navigate(['/login']);
   }
 }

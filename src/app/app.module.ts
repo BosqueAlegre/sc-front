@@ -20,6 +20,7 @@ import { HTTP_JWT_INTERCEPTOR } from './shared/services/jwt.interceptor';
 import { HTTP_ERROR_INTERCEPTOR } from './shared/services/error.interceptor';
 import { IonicStorageModule } from '@ionic/storage-angular';
 import { HTTP_LOADING_INTERCEPTOR } from './shared/services/loading.interceptor';
+import { SuperAdminGuard } from './guard/superAdmin.guard';
 
 @NgModule({
   declarations: [AppComponent, MenuComponent],
@@ -38,6 +39,7 @@ import { HTTP_LOADING_INTERCEPTOR } from './shared/services/loading.interceptor'
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     AuthGuard,
     LoginGuard,
+    SuperAdminGuard,
     MenuService,
     UserService,
     HTTP_JWT_INTERCEPTOR,

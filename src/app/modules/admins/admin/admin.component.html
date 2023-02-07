@@ -1,0 +1,64 @@
+<ion-header>
+  <ion-toolbar color="secondary">
+    <ion-title class="pd0">Agregar jefe de calle</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <form [formGroup]="formAdmin" (submit)="onSubmit()">
+    <ion-grid>
+      <ion-row>
+        <ion-col size="12">
+          <ion-item>
+            <ion-label position="floating">Nombres</ion-label>
+            <ion-input
+              formControlName="name"
+              placeholder="Ingresa los nombres"
+            ></ion-input>
+          </ion-item>
+        </ion-col>
+        <ion-col size="12">
+          <ion-item>
+            <ion-label position="floating">Primer apellido</ion-label>
+            <ion-input
+              formControlName="patherLastName"
+              placeholder="Ingresa los apellidos"
+            ></ion-input
+          ></ion-item>
+        </ion-col>
+        <ion-col size="12">
+          <ion-item>
+            <ion-label position="floating">Segundo apellido</ion-label>
+            <ion-input
+              formControlName="motherLastName"
+              placeholder="Ingresa los apellidos"
+            ></ion-input
+          ></ion-item>
+        </ion-col>
+        <ion-col size="12">
+          <ion-item>
+            <ion-label position="floating">Correo electrónico</ion-label>
+            <ion-input
+              formControlName="email"
+              placeholder="Correo electrónico"
+            ></ion-input
+          ></ion-item>
+        </ion-col>
+        <ion-col size="12" *ngIf="!data.edit">
+          <ion-item>
+            <ion-label position="floating">Contraseña</ion-label>
+            <ion-input
+              formControlName="password"
+              placeholder="Ingrese la contraseña"
+            ></ion-input
+          ></ion-item>
+        </ion-col>
+
+        <ion-col class="buttons" size="12" style="text-align: right;">
+          <ion-button style="margin-right: .6rem;" (click)="cancel()" color="danger">Cancelar</ion-button>
+          <ion-button type="submit" [disabled]="formAdmin.invalid">{{ !data.edit ? 'Crear' : 'Actualizar' }}</ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </form>
+</ion-content>

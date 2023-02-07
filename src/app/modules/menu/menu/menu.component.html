@@ -4,7 +4,7 @@
       <ion-title>Menu</ion-title>
     </ion-toolbar>
   </ion-header>
-  <ion-content>
+  <ion-content *ngIf="user">
     <div class="divItem" *ngFor="let item of menuItem">
       <ion-item [href]="item.url">
         <ion-label>{{ item.title }}</ion-label>

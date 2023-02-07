@@ -7,6 +7,9 @@ import { LoginModule } from './modules/login/login.module';
 import { UserRegistrerModule } from '../app/modules/user-register/user-registrer.module';
 import { SearchModule } from './modules/search/search.module';
 import { HomePageModule } from './home/home.module';
+import { AdminsPageModule } from './modules/admins/admins.module';
+import { SuperAdminGuard } from './guard/superAdmin.guard';
+
 const routes: Routes = [
   {
     path: '',
@@ -16,6 +19,11 @@ const routes: Routes = [
       {
         path: '',
         loadChildren: () => HomePageModule,
+      },
+      {
+        path: 'admins',
+        loadChildren: () => AdminsPageModule,
+        canActivate: [SuperAdminGuard]
       },
       {
         path: 'register',
@@ -30,9 +38,13 @@ const routes: Routes = [
   {
     path: 'login',
     loadChildren: () => LoginModule,
-    // canActivate: [LoginGuard],
+    canActivate: [LoginGuard],
   },
   { path: '**', redirectTo: '', pathMatch: 'full' },
+  {
+    path: 'admins',
+    loadChildren: () => import('./modules/admins/admins.module').then( m => m.AdminsPageModule)
+  },
 ];
 
 @NgModule({
