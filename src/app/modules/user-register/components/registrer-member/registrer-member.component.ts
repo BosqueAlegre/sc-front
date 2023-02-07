@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AlertController, ModalController } from '@ionic/angular';
+import { AccountService } from 'src/app/services/account.service';
 import { AdminsService } from 'src/app/services/admins.service';
 import { FamilyService } from 'src/app/services/family.service';
 
@@ -18,10 +19,14 @@ export class RegistrerMemberComponent implements OnInit {
     private modalCtrl: ModalController,
     private _familyService: FamilyService,
     private _alertController: AlertController,
-    private _adminsService: AdminsService
+    private _adminsService: AdminsService,
+    private _accountService: AccountService
   ) {}
-
+  user: any;
   ngOnInit() {
+    this._accountService.me().subscribe((res) => {
+      this.user = res;
+    });
     this.form = this._fb.group({
       ci: [
         this.data.edit ? this.data.ci : '',
@@ -103,6 +108,8 @@ export class RegistrerMemberComponent implements OnInit {
         });
     } else {
       sendData.password = sendData.ci.slice(1, sendData.ci.length);
+      sendData.familyBoss = true;
+      sendData.admin = this.user.id;
       this._adminsService.createFamilyBoss(sendData).subscribe(async (res) => {
         const alert = await this._alertController.create({
           header: 'Jefe de familia agregado',

@@ -31,12 +31,25 @@ export class SearchComponent implements OnInit {
     'gender',
     'ci',
     'dateOfBirth',
+    'apartment',
   ];
   dataSource: MatTableDataSource<any>;
   usersAll: any[] = [];
   user: any;
   towerUser: any;
+  isLoading = true;
+  isError = false;
   ngOnInit() {
+    this.adminsService.getFamilyBoss().subscribe(
+      (response: any) => {
+        this.setData(response.persons);
+        this.isLoading = false;
+      },
+      (error) => {
+        this.isError = true;
+        this.isLoading = false;
+      }
+    );
     this.accountService.me().subscribe((res) => {
       this.user = res;
       if (this.user?.role == 'ADMINISTRADOR' && this.user.apartment) {
@@ -59,7 +72,7 @@ export class SearchComponent implements OnInit {
           : new Date().getFullYear() -
             new Date(data.dateOfBirth).getFullYear() -
             1;
-      console.log(age, minAge, maxAge);
+
       return minAge <= age && age <= maxAge;
     };
     this.mens = this.usersAll.filter((data) => {
@@ -211,6 +224,22 @@ export class SearchComponent implements OnInit {
     modal.present();
 
     const { data } = await modal.onWillDismiss();
-    console.log(data);
+    this.load();
+  }
+
+  load() {
+    this.isLoading = true;
+    this.isError = false;
+    this.adminsService.getFamilyBoss().subscribe(
+      (response: any) => {
+        this.setData(response.persons);
+        this.usersAll = response.persons;
+        this.isLoading = false;
+      },
+      (error) => {
+        this.isError = true;
+        this.isLoading = false;
+      }
+    );
   }
 }

@@ -58,4 +58,9 @@ export class AdminsService {
       data
     );
   }
+  getFamilyBoss() {
+    return this.http.get<{ message: string; users: User[]; config: any }>(
+      `${this.url}/admin/family-boss`
+    );
+  }
 }
