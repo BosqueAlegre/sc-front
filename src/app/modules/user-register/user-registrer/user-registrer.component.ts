@@ -5,7 +5,7 @@ import { RegistrerMemberComponent } from '../components/registrer-member/registr
 import { MatTableDataSource } from '@angular/material/table';
 import { Platform } from '@ionic/angular';
 import { ExportExcelService } from 'src/app/shared/services/export-excel.service';
-import { AuthService } from 'src/app/services/account.service';
+import { AccountService } from 'src/app/services/account.service';
 export interface IUser {
   _id: string;
   ci: number;
@@ -32,7 +32,7 @@ export class UserRegistrerComponent implements OnInit {
     private modalCtrl: ModalController,
     public platform: Platform,
     public exportExcel: ExportExcelService,
-    public authService: AuthService
+    public authService: AccountService
   ) {}
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
@@ -75,33 +75,33 @@ export class UserRegistrerComponent implements OnInit {
   borrarTabla: IUser[] = [
     {
       _id: 'sdasdasd',
-      name: 'pepe',
-      patherLastName: 'grillo',
-      motherLastName: 'grillo',
-      gender: 'M',
-      ci: 111,
+      name: 'María',
+      patherLastName: 'Hernandez',
+      motherLastName: 'Murillo',
+      gender: 'F',
+      ci: 20103934,
       dateOfBirth: 1676592000000,
       // enfermedad: false,
       // desEnfermedad: '',
     },
     {
       _id: 'sdasdasd',
-      name: 'pepe2',
-      patherLastName: 'grillo2',
-      motherLastName: 'grillo2',
+      name: 'José',
+      patherLastName: 'Gómez',
+      motherLastName: 'Avendaño',
       gender: 'M',
-      ci: 222,
+      ci: 13940593,
       dateOfBirth: 1676592000000,
       // enfermedad: false,
       // desEnfermedad: '',
     },
     {
       _id: 'sdasdasd',
-      name: 'pepe3',
-      patherLastName: 'grillo3',
-      motherLastName: 'grillo3',
+      name: 'Enrrique',
+      patherLastName: 'Amigo',
+      motherLastName: 'Valor',
       gender: 'M',
-      ci: 333,
+      ci: 12039483,
       dateOfBirth: 1676592000000,
       // enfermedad: true,
       // desEnfermedad: 'gripe',

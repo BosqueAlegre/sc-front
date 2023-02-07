@@ -6,7 +6,7 @@ import { pluck } from 'rxjs/operators';
 @Injectable({
   providedIn: 'root',
 })
-export class AuthService {
+export class AccountService {
   url = environment.url_api;
   currentUser: any;
 
