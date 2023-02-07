@@ -3,9 +3,11 @@ import { FormBuilder } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { ModalController } from '@ionic/angular';
 import { filter } from 'rxjs';
 import { AccountService } from 'src/app/services/account.service';
 import { ExportExcelService } from 'src/app/shared/services/export-excel.service';
+import { RegistrerMemberComponent } from '../../user-register/components/registrer-member/registrer-member.component';
 import { IUser } from '../../user-register/user-registrer/user-registrer.component';
 
 @Component({
@@ -19,7 +21,8 @@ export class SearchComponent implements OnInit {
   constructor(
     public fb: FormBuilder,
     public exportExcel: ExportExcelService,
-    public accountService: AccountService
+    public accountService: AccountService,
+    private modalCtrl: ModalController
   ) {}
   displayedColumns: string[] = [
     'name',
@@ -29,44 +32,7 @@ export class SearchComponent implements OnInit {
     'dateOfBirth',
   ];
   dataSource: MatTableDataSource<any>;
-  ELEMENT_DATA: IUser[] = [
-    {
-      _id: 'sdasdasd',
-      name: 'Victor',
-      patherLastName: 'Fernandez',
-      motherLastName: 'Avendaño',
-      gender: 'M',
-      ci: 111,
-      dateOfBirth: 914198400000,
-      // enfermedad: false,
-      // desEnfermedad: '',
-      apartment: 'A4',
-    },
-    {
-      _id: 'sdasdasd',
-      name: 'Maria',
-      patherLastName: 'garcia',
-      motherLastName: 'patricia',
-      gender: 'F',
-      ci: 111,
-      dateOfBirth: 75772800000,
-      // enfermedad: false,
-      // desEnfermedad: '',
-      apartment: 'A4',
-    },
-    {
-      _id: 'sdasdasd',
-      name: 'Orlando',
-      patherLastName: 'Aguiñe',
-      motherLastName: 'Ostos',
-      gender: 'M',
-      ci: 111,
-      dateOfBirth: 800841600000,
-      // enfermedad: false,
-      // desEnfermedad: '',
-      apartment: 'B4',
-    },
-  ];
+  usersAll: IUser[] = [];
   user: any;
   towerUser: any;
   ngOnInit() {
@@ -77,8 +43,7 @@ export class SearchComponent implements OnInit {
         //COLOCAR EL VALOR DE LOS DATOS IGUAL A LA TORRE QUE CORRESPONDA
       }
     });
-    this.setData(this.ELEMENT_DATA);
-    // this.dataSource = new MatTableDataSource(this.ELEMENT_DATA);
+    this.setData(this.usersAll);
 
     this.dataSource.filterPredicate = (data: any, filter: string) => {
       let ageRange = filter.split('-');
@@ -96,16 +61,16 @@ export class SearchComponent implements OnInit {
       console.log(age, minAge, maxAge);
       return minAge <= age && age <= maxAge;
     };
-    this.mens = this.ELEMENT_DATA.filter((data) => {
+    this.mens = this.usersAll.filter((data) => {
       return data.gender == 'M';
     });
-    this.womens = this.ELEMENT_DATA.filter((data) => {
+    this.womens = this.usersAll.filter((data) => {
       return data.gender == 'F';
     });
-    this.a = this.ELEMENT_DATA.filter((data: any) => {
+    this.a = this.usersAll.filter((data: any) => {
       return data.apartment[0] == 'A';
     });
-    this.b = this.ELEMENT_DATA.filter((data: any) => {
+    this.b = this.usersAll.filter((data: any) => {
       return data.apartment[0] == 'B';
     });
   }
@@ -191,20 +156,20 @@ export class SearchComponent implements OnInit {
     this.gender = '';
     let filter = [];
     if (this.tower == 'A') {
-      filter = this.ELEMENT_DATA.filter((data: any) => {
+      filter = this.usersAll.filter((data: any) => {
         return data.apartment[0] == 'A';
       });
       // this.dataSource = new MatTableDataSource(filter);
       this.setData(filter);
     } else if (this.tower == 'B') {
-      filter = this.ELEMENT_DATA.filter((data: any) => {
+      filter = this.usersAll.filter((data: any) => {
         return data.apartment[0] == 'B';
       });
       // this.dataSource = new MatTableDataSource(filter);
       this.setData(filter);
     } else {
-      // this.dataSource = new MatTableDataSource(this.ELEMENT_DATA);
-      this.setData(this.ELEMENT_DATA);
+      // this.dataSource = new MatTableDataSource(this.usersAll);
+      this.setData(this.usersAll);
     }
   }
   limpiarTorre() {
@@ -212,20 +177,20 @@ export class SearchComponent implements OnInit {
     let filter = [];
 
     if (this.gender == 'M') {
-      filter = this.ELEMENT_DATA.filter((data: any) => {
+      filter = this.usersAll.filter((data: any) => {
         return data.gender == 'M';
       });
       // this.dataSource = new MatTableDataSource(filter);
       this.setData(filter);
     } else if (this.gender == 'F') {
-      filter = this.ELEMENT_DATA.filter((data: any) => {
+      filter = this.usersAll.filter((data: any) => {
         return data.gender == 'F';
       });
       // this.dataSource = new MatTableDataSource(filter);
       this.setData(filter);
     } else {
-      // this.dataSource = new MatTableDataSource(this.ELEMENT_DATA);
-      this.setData(this.ELEMENT_DATA);
+      // this.dataSource = new MatTableDataSource(this.usersAll);
+      this.setData(this.usersAll);
     }
   }
 
@@ -235,5 +200,24 @@ export class SearchComponent implements OnInit {
   }
   export() {
     this.exportExcel.exportExcel(this.dataSource.filteredData);
+  }
+
+  async agregar() {
+    const modal = await this.modalCtrl.create({
+      component: RegistrerMemberComponent,
+      componentProps: { datos: { dato: null, edit: false } },
+    });
+    modal.present();
+
+    const { data } = await modal.onWillDismiss();
+    data.dateOfBirth = +data.dateOfBirth;
+    if (data) {
+      data.apartment = this.user.apartment;
+      data.role = 'JEFE DE FAMILIA';
+      console.log(data);
+
+      // this.borrarTabla.unshift(data);
+      this.setData(this.usersAll);
+    }
   }
 }

@@ -96,41 +96,7 @@ export class UserRegistrerComponent implements OnInit {
     this.dataSource = new MatTableDataSource(users);
     this.dataSource.paginator = this.paginator;
   }
-  borrarTabla: IUser[] = [
-    {
-      _id: 'sdasdasd',
-      name: 'María',
-      patherLastName: 'Hernandez',
-      motherLastName: 'Murillo',
-      gender: 'F',
-      ci: 20103934,
-      dateOfBirth: 1676592000000,
-      // enfermedad: false,
-      // desEnfermedad: '',
-    },
-    {
-      _id: 'sdasdasd',
-      name: 'José',
-      patherLastName: 'Gómez',
-      motherLastName: 'Avendaño',
-      gender: 'M',
-      ci: 13940593,
-      dateOfBirth: 1676592000000,
-      // enfermedad: false,
-      // desEnfermedad: '',
-    },
-    {
-      _id: 'sdasdasd',
-      name: 'Enrrique',
-      patherLastName: 'Amigo',
-      motherLastName: 'Valor',
-      gender: 'M',
-      ci: 12039483,
-      dateOfBirth: 1676592000000,
-      // enfermedad: true,
-      // desEnfermedad: 'gripe',
-    },
-  ];
+  borrarTabla: IUser[] = [];
   formatDate(date: any) {
     let d = new Date(date);
     return `${d.getDate()}/${d.getMonth() + 1}/${d.getFullYear()} `;

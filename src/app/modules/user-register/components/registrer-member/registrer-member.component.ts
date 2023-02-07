@@ -102,6 +102,6 @@ export class RegistrerMemberComponent implements OnInit {
   confirm() {
     let d = Date.parse(String(this.form.value.dateOfBirth));
     this.form.controls.dateOfBirth.setValue(String(d));
-    // return this.modalCtrl.dismiss(this.form.value, 'data');
+    return this.modalCtrl.dismiss(this.form.value, 'data');
   }
 }
