@@ -9,7 +9,6 @@ import { AccountService } from 'src/app/services/account.service';
 import { AdminsService } from 'src/app/services/admins.service';
 import { ExportExcelService } from 'src/app/shared/services/export-excel.service';
 import { RegistrerMemberComponent } from '../../user-register/components/registrer-member/registrer-member.component';
-import { IUser } from '../../user-register/user-registrer/user-registrer.component';
 
 @Component({
   selector: 'app-search',
@@ -34,7 +33,7 @@ export class SearchComponent implements OnInit {
     'dateOfBirth',
   ];
   dataSource: MatTableDataSource<any>;
-  usersAll: IUser[] = [];
+  usersAll: any[] = [];
   user: any;
   towerUser: any;
   ngOnInit() {
