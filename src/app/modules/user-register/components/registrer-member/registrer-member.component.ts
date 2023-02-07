@@ -89,11 +89,15 @@ export class RegistrerMemberComponent implements OnInit {
   }
 
   confirm() {
-    const sendData = JSON.parse(JSON.stringify(this.form.value));
-    sendData.dateOfBirth = Date.parse(
-      sendData.dateOfBirth.replace(/^(\d{4})-(\d{2})-(\d{2})$/g, '$2/$3/$1')
-    );
-    if (!this.data.search) {
+    this.data.edit ? this.updateMember() : this.addMember();
+  }
+
+  private addMember() {
+    if (!this.data.register) {
+      const sendData = JSON.parse(JSON.stringify(this.form.value));
+      sendData.dateOfBirth = Date.parse(
+        sendData.dateOfBirth.replace(/^(\d{4})-(\d{2})-(\d{2})$/g, '$2/$3/$1')
+      );
       this._familyService
         .addMember(this.data.boss, sendData)
         .subscribe(async (response) => {
@@ -107,6 +111,8 @@ export class RegistrerMemberComponent implements OnInit {
           return this.modalCtrl.dismiss(response.person);
         });
     } else {
+      const sendData = JSON.parse(JSON.stringify(this.form.value));
+
       sendData.password = sendData.ci.slice(1, sendData.ci.length);
       sendData.familyBoss = true;
       sendData.admin = this.user.id;
@@ -120,5 +126,24 @@ export class RegistrerMemberComponent implements OnInit {
         return this.modalCtrl.dismiss(res.user);
       });
     }
+  }
+
+  private updateMember() {
+    const sendData = JSON.parse(JSON.stringify(this.form.value));
+    sendData.dateOfBirth = Date.parse(
+      sendData.dateOfBirth.replace(/^(\d{4})-(\d{2})-(\d{2})$/g, '$2/$3/$1')
+    );
+    this._familyService
+      .updateMember(this.data.boss, this.data.id, sendData)
+      .subscribe(async (response) => {
+        const alert = await this._alertController.create({
+          header: 'Miembro actualizado',
+          message: response.message,
+          buttons: ['Ok'],
+        });
+
+        await alert.present();
+        return this.modalCtrl.dismiss(response.person);
+      });
   }
 }

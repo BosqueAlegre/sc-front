@@ -52,7 +52,7 @@
         <ion-card class="carta">
           <ion-card-header>
             <ion-card-title class="title">{{ person.name }} {{ person.patherLastName }} {{ person.motherLastName }}</ion-card-title>
-            <ion-card-subtitle>Fecha Nacimiento: {{ person.dateOfBirth }}</ion-card-subtitle>
+            <ion-card-subtitle>Fecha Nacimiento: {{ person.dateOfBirth | date:'dd/MM/yyyy' }}</ion-card-subtitle>
             <ion-card-subtitle>Cédula: {{ person.ci }}</ion-card-subtitle>
             <ion-card-subtitle>Género: {{ person.gender }}</ion-card-subtitle>
             <div>
