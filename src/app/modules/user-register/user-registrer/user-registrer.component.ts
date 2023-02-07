@@ -6,6 +6,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { Platform } from '@ionic/angular';
 import { ExportExcelService } from 'src/app/shared/services/export-excel.service';
 import { AccountService } from 'src/app/services/account.service';
+import { FamilyService } from 'src/app/services/family.service';
 export interface IUser {
   _id: string;
   ci: number;
@@ -32,10 +33,11 @@ export class UserRegistrerComponent implements OnInit {
     private modalCtrl: ModalController,
     public platform: Platform,
     public exportExcel: ExportExcelService,
-    public accountService: AccountService
+    public accountService: AccountService,
+    public familyService: FamilyService
   ) {}
   @ViewChild(MatPaginator) paginator: MatPaginator;
-
+  user: any;
   displayedColumns: string[] = [
     'name',
     'last_name',
@@ -50,6 +52,7 @@ export class UserRegistrerComponent implements OnInit {
     this.setData(this.borrarTabla);
     this.accountService.me().subscribe((res) => {
       console.log(res);
+      this.user = res;
     });
   }
 
@@ -136,11 +139,10 @@ export class UserRegistrerComponent implements OnInit {
       const file: File = ev.target.files[0];
       const formData = new FormData();
       formData.append('file', file);
-      let family = await this.exportExcel.importFamilyCharge(file);
-      console.log(family);
-      // this.familyService.addMembers(this.accountService.currentUser,family).subscribe((res)=>{
-      //   newFamily = res
-      // })
+      let family = await this.exportExcel.importFamilyCharge(file, this.user);
+      this.familyService.addMembers(this.user.id, family).subscribe((res) => {
+        console.log(res);
+      });
     };
   }
 }

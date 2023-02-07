@@ -13,7 +13,7 @@ export class ExportExcelService {
     this.http = new HttpClient(this.handler);
   }
 
-  async importFamilyCharge(formFile: any) {
+  async importFamilyCharge(formFile: any, familyBoss: any) {
     const { workbook, worksheet } = await this.initWorkbookExcel(formFile);
     let letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I'];
     let number = 0;
@@ -36,9 +36,11 @@ export class ExportExcelService {
         gender: '',
         dateOfBirth: 0,
         familyBoss: false,
-        boss: false,
+        boss: familyBoss.id,
         family: '',
         apartment: '',
+        admin: familyBoss.admin,
+        role: 'CARGA FAMILIAR',
       };
       for (let letter of letters) {
         switch (letter) {
@@ -92,6 +94,7 @@ export class ExportExcelService {
       }
       family.push(user);
     }
+    console.log(family);
     return family;
   }
 
