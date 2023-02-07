@@ -6,6 +6,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { ModalController } from '@ionic/angular';
 import { filter } from 'rxjs';
 import { AccountService } from 'src/app/services/account.service';
+import { AdminsService } from 'src/app/services/admins.service';
 import { ExportExcelService } from 'src/app/shared/services/export-excel.service';
 import { RegistrerMemberComponent } from '../../user-register/components/registrer-member/registrer-member.component';
 import { IUser } from '../../user-register/user-registrer/user-registrer.component';
@@ -22,7 +23,8 @@ export class SearchComponent implements OnInit {
     public fb: FormBuilder,
     public exportExcel: ExportExcelService,
     public accountService: AccountService,
-    private modalCtrl: ModalController
+    private modalCtrl: ModalController,
+    public adminsService: AdminsService
   ) {}
   displayedColumns: string[] = [
     'name',
@@ -215,7 +217,9 @@ export class SearchComponent implements OnInit {
       data.apartment = this.user.apartment;
       data.role = 'JEFE DE FAMILIA';
       console.log(data);
-
+      this.adminsService.createFamilyBoss(data).subscribe((res) => {
+        alert(res);
+      });
       // this.borrarTabla.unshift(data);
       this.setData(this.usersAll);
     }

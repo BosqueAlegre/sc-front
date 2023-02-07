@@ -22,7 +22,7 @@ export class MenuComponent implements OnInit {
     {
       title: 'Registros',
       url: 'search',
-      icon: 'search-outline',
+      icon: 'search-sharp',
       exact: true,
       click: null,
       role: ['SUPER ADMINISTRADOR', 'ADMINISTRADOR']
@@ -30,7 +30,7 @@ export class MenuComponent implements OnInit {
     {
       title: 'Agregar Carga',
       url: 'register',
-      icon: 'document-outline',
+      icon: 'document-text-sharp',
       exact: true,
       click: null,
       role: ['SUPER ADMINISTRADOR', 'ADMINISTRADOR', 'JEFE DE FAMILIA']

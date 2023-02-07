@@ -1,15 +1,9 @@
 <ion-header>
   <ion-toolbar color="secondary">
     <ion-title class="pd0">Agregar miembro al grupo familiar</ion-title>
-    <ion-buttons slot="end">
-      <ion-icon
-        class="iclose"
-        (click)="cancel()"
-        name="close-circle-outline"
-      ></ion-icon>
-    </ion-buttons>
   </ion-toolbar>
 </ion-header>
+
 <ion-content class="ion-padding">
   <form [formGroup]="form">
     <ion-grid>
@@ -56,12 +50,12 @@
           <ion-radio-group formControlName="gender">
             <ion-item>
               <ion-label>Masculino</ion-label>
-              <ion-radio slot="end" value="M"></ion-radio>
+              <ion-radio slot="end" value="MASCULINO"></ion-radio>
             </ion-item>
 
             <ion-item>
               <ion-label>Femenino</ion-label>
-              <ion-radio slot="end" value="F"></ion-radio>
+              <ion-radio slot="end" value="FEMENINO"></ion-radio>
             </ion-item>
           </ion-radio-group>
         </ion-col>
@@ -76,31 +70,19 @@
             ></ion-input>
           </ion-item>
         </ion-col>
-        <!-- <ion-col size="12">
+        <ion-col size="12">
           <ion-item>
-            <ion-checkbox
-              formControlName="enfermedad"
-              slot="start"
-            ></ion-checkbox>
-            <ion-label>Padese enfermedad</ion-label>
-          </ion-item>
+            <ion-label position="floating">Apartamento</ion-label>
+            <ion-input
+              formControlName="apartment"
+              placeholder="Ingresa su apartamento"
+            ></ion-input
+          ></ion-item>
         </ion-col>
-        <ion-col *ngIf="form.value.enfermedad" size="12">
-          <ion-item>
-            <ion-label position="floating">Descripción</ion-label>
-            <ion-textarea
-              formControlName="desEnfermedad"
-              placeholder="Describe la enfermedad"
-            ></ion-textarea>
-          </ion-item>
-        </ion-col> -->
-        <ion-col class="buttons" size="6">
-          <ion-button (click)="cancel()" color="danger">Cancelar</ion-button>
-        </ion-col>
-        <ion-col class="buttons" size="6">
-          <ion-button (click)="confirm()" [disabled]="!form.valid"
-            >Agregar</ion-button
-          >
+
+        <ion-col class="buttons" size="12" style="text-align: right;">
+          <ion-button (click)="cancel()" color="danger" style="margin-right: .6rem;">Cancelar</ion-button>
+          <ion-button (click)="confirm()" [disabled]="form.invalid">Agregar</ion-button>
         </ion-col>
       </ion-row>
     </ion-grid>

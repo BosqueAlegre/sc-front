@@ -22,9 +22,9 @@ export class AdminComponent implements OnInit {
 
   ngOnInit() {
     this.formAdmin = this._fb.group({
-      name: [this.data.edit ? this.data.name : '', [Validators.required, Validators.pattern(/^[a-zA-ZÀ-ÖØ-öø-ÿ]+\.?(( |\-)[a-zA-ZÀ-ÖØ-öø-ÿ]+\.?)*$/,)]],
-      patherLastName: [this.data.edit ? this.data.patherLastName : '', [Validators.required, Validators.pattern(/^[a-zA-ZÀ-ÖØ-öø-ÿ]+\.?(( |\-)[a-zA-ZÀ-ÖØ-öø-ÿ]+\.?)*$/,)]],
-      motherLastName: [this.data.edit ? this.data.motherLastName : '', [Validators.pattern(/^[a-zA-ZÀ-ÖØ-öø-ÿ]+\.?(( |\-)[a-zA-ZÀ-ÖØ-öø-ÿ]+\.?)*$/,)]],
+      name: [this.data.edit ? this.data.name : '', [Validators.required, Validators.pattern(/^[a-zA-ZÀ-ÖØ-öø-ÿ]+\.?(( |\-)[a-zA-ZÀ-ÖØ-öø-ÿ]+\.?)*$/)]],
+      patherLastName: [this.data.edit ? this.data.patherLastName : '', [Validators.required, Validators.pattern(/^[a-zA-ZÀ-ÖØ-öø-ÿ]+\.?(( |\-)[a-zA-ZÀ-ÖØ-öø-ÿ]+\.?)*$/)]],
+      motherLastName: [this.data.edit ? this.data.motherLastName : '', [Validators.pattern(/^[a-zA-ZÀ-ÖØ-öø-ÿ]+\.?(( |\-)[a-zA-ZÀ-ÖØ-öø-ÿ]+\.?)*$/)]],
       email: [this.data.edit ? this.data.email : '', [Validators.required, Validators.email]],
       password: [{ value: '', disabled: this.data.edit }, [Validators.required]]
     });
