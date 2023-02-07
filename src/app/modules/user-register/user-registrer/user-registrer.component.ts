@@ -7,6 +7,7 @@ import { Platform } from '@ionic/angular';
 import { ExportExcelService } from 'src/app/shared/services/export-excel.service';
 import { AccountService } from 'src/app/services/account.service';
 import { FamilyService } from 'src/app/services/family.service';
+import { FormBuilder, Validators } from '@angular/forms';
 export interface IUser {
   _id: string;
   ci: number;
@@ -35,7 +36,8 @@ export class UserRegistrerComponent implements OnInit {
     public platform: Platform,
     public exportExcel: ExportExcelService,
     public accountService: AccountService,
-    public familyService: FamilyService
+    public familyService: FamilyService,
+    public fb: FormBuilder
   ) {}
   @ViewChild(MatPaginator) paginator: MatPaginator;
   user: any;
@@ -55,7 +57,26 @@ export class UserRegistrerComponent implements OnInit {
       this.user = res;
     });
   }
-
+  form = this.fb.group({
+    newPassword: ['', [Validators.required]],
+    password: ['', [Validators.required]],
+  });
+  change: boolean;
+  changePasswordOk() {
+    this.accountService
+      .changePassword(
+        String(this.form.value.password),
+        String(this.form.value.newPassword)
+      )
+      .subscribe((res) => {
+        alert(res);
+        this.cancelChange();
+      });
+  }
+  cancelChange() {
+    this.form.reset();
+    this.change = false;
+  }
   async openModal() {
     const modal = await this.modalCtrl.create({
       component: RegistrerMemberComponent,
