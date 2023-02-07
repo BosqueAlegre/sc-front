@@ -207,21 +207,11 @@ export class SearchComponent implements OnInit {
   async agregar() {
     const modal = await this.modalCtrl.create({
       component: RegistrerMemberComponent,
-      componentProps: { datos: { dato: null, edit: false } },
+      componentProps: { data: { edit: false, search: true } },
     });
     modal.present();
 
     const { data } = await modal.onWillDismiss();
-    data.dateOfBirth = +data.dateOfBirth;
-    if (data) {
-      data.apartment = this.user.apartment;
-      data.role = 'JEFE DE FAMILIA';
-      console.log(data);
-      this.adminsService.createFamilyBoss(data).subscribe((res) => {
-        alert(res);
-      });
-      // this.borrarTabla.unshift(data);
-      this.setData(this.usersAll);
-    }
+    console.log(data);
   }
 }

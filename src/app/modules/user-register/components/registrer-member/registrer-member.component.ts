@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AlertController, ModalController } from '@ionic/angular';
+import { AdminsService } from 'src/app/services/admins.service';
 import { FamilyService } from 'src/app/services/family.service';
 
 @Component({
@@ -16,7 +17,8 @@ export class RegistrerMemberComponent implements OnInit {
     private _fb: FormBuilder,
     private modalCtrl: ModalController,
     private _familyService: FamilyService,
-    private _alertController: AlertController
+    private _alertController: AlertController,
+    private _adminsService: AdminsService
   ) {}
 
   ngOnInit() {
@@ -86,17 +88,30 @@ export class RegistrerMemberComponent implements OnInit {
     sendData.dateOfBirth = Date.parse(
       sendData.dateOfBirth.replace(/^(\d{4})-(\d{2})-(\d{2})$/g, '$2/$3/$1')
     );
-    this._familyService
-      .addMember(this.data.boss, sendData)
-      .subscribe(async (response) => {
+    if (!this.data.search) {
+      this._familyService
+        .addMember(this.data.boss, sendData)
+        .subscribe(async (response) => {
+          const alert = await this._alertController.create({
+            header: 'Miembro agregado',
+            message: response.message,
+            buttons: ['Ok'],
+          });
+
+          await alert.present();
+          return this.modalCtrl.dismiss(response.person);
+        });
+    } else {
+      sendData.password = sendData.ci.slice(1, sendData.ci.length);
+      this._adminsService.createFamilyBoss(sendData).subscribe(async (res) => {
         const alert = await this._alertController.create({
-          header: 'Miembro agregado',
-          message: response.message,
+          header: 'Jefe de familia agregado',
+          message: res.message,
           buttons: ['Ok'],
         });
-
         await alert.present();
-        return this.modalCtrl.dismiss(response.person);
+        return this.modalCtrl.dismiss(res.user);
       });
+    }
   }
 }

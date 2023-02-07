@@ -80,9 +80,16 @@
           ></ion-item>
         </ion-col>
 
-        <ion-col class="buttons" size="12" style="text-align: right;">
-          <ion-button (click)="cancel()" color="danger" style="margin-right: .6rem;">Cancelar</ion-button>
-          <ion-button (click)="confirm()" [disabled]="form.invalid">Agregar</ion-button>
+        <ion-col class="buttons" size="12" style="text-align: right">
+          <ion-button
+            (click)="cancel()"
+            color="danger"
+            style="margin-right: 0.6rem"
+            >Cancelar</ion-button
+          >
+          <ion-button (click)="confirm()" [disabled]="form.invalid"
+            >Agregar</ion-button
+          >
         </ion-col>
       </ion-row>
     </ion-grid>
