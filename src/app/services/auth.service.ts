@@ -35,13 +35,6 @@ export class AuthService {
     .pipe(pluck('message'));
   }
 
-  // CAMBIAR CONTRASEÑA ACTUAL
-  // DEBE TENER UNA SESION ACTIVA
-  changePassword(password: string, newPassword: string) {
-    return this.http.post<{ message: string }>(`${this.url}/auth/change-password`, { password, newPassword })
-    .pipe(pluck('message'));
-  }
-
   // CERRAR SESION
   logout() {
     this.storage.remove(environment.token_key);
