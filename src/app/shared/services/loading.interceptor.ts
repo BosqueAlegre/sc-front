@@ -20,7 +20,9 @@ export class LoadingInterceptor implements HttpInterceptor {
   ): Observable<HttpEvent<unknown>> {
     this.presentLoading();
     return next.handle(request).pipe(
-      finalize(() => this._loadingCtrl.dismiss())
+      finalize(() => setTimeout(() => {
+        this._loadingCtrl.dismiss();
+      }, 1000))
     );
   }
 

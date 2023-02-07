@@ -19,30 +19,15 @@ export class JwtInterceptor implements HttpInterceptor {
     constructor(private storage: Storage) {}
 
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-        let promise = this.storage.get(environment.token_key);
-
-        return from(promise)
-        .pipe(
-            mergeMap(token => {
-                let clonedReq = this.addToken(request, token);
-                return next.handle(clonedReq);
-            })
-        )
-    }
-
-    private addToken(request: HttpRequest<any>, token: any) {
-        if (token) {
-            let clone: HttpRequest<any>;
-            clone = request.clone({
+        return from(this.storage.get(environment.token_key)).pipe(mergeMap((token) => {
+            const changedReq = request.clone({
                 setHeaders: {
-                    Authorization: 'bearer ' + token,
-                },
-            })
-
-            return clone;
-        }
-
-        return request;
+                    Authorization: `Bearer ${token}`
+                }
+            });
+    
+            return next.handle(changedReq);
+        }));
     }
 }
 
