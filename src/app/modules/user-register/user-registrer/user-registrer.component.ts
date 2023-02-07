@@ -51,7 +51,6 @@ export class UserRegistrerComponent implements OnInit {
   ngOnInit() {
     this.setData(this.borrarTabla);
     this.accountService.me().subscribe((res) => {
-      console.log(res);
       this.user = res;
     });
   }
