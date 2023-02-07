@@ -4,6 +4,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { filter } from 'rxjs';
+import { AccountService } from 'src/app/services/account.service';
 import { ExportExcelService } from 'src/app/shared/services/export-excel.service';
 import { IUser } from '../../user-register/user-registrer/user-registrer.component';
 
@@ -15,7 +16,11 @@ import { IUser } from '../../user-register/user-registrer/user-registrer.compone
 export class SearchComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
-  constructor(public fb: FormBuilder, public exportExcel: ExportExcelService) {}
+  constructor(
+    public fb: FormBuilder,
+    public exportExcel: ExportExcelService,
+    public accountService: AccountService
+  ) {}
   displayedColumns: string[] = [
     'name',
     'patherLastName',
@@ -28,8 +33,8 @@ export class SearchComponent implements OnInit {
     {
       _id: 'sdasdasd',
       name: 'Victor',
-      patherLastName: 'grillo',
-      motherLastName: 'grillo',
+      patherLastName: 'Fernandez',
+      motherLastName: 'Avendaño',
       gender: 'M',
       ci: 111,
       dateOfBirth: 914198400000,
@@ -52,8 +57,8 @@ export class SearchComponent implements OnInit {
     {
       _id: 'sdasdasd',
       name: 'Orlando',
-      patherLastName: 'aguiñe',
-      motherLastName: 'grillo',
+      patherLastName: 'Aguiñe',
+      motherLastName: 'Ostos',
       gender: 'M',
       ci: 111,
       dateOfBirth: 800841600000,
@@ -62,14 +67,24 @@ export class SearchComponent implements OnInit {
       apartment: 'B4',
     },
   ];
+  user: any;
+  towerUser: any;
   ngOnInit() {
-    this.dataSource = new MatTableDataSource(this.ELEMENT_DATA);
+    this.accountService.me().subscribe((res) => {
+      this.user = res;
+      if (this.user?.role == 'ADMINISTRADOR' && this.user.apartment) {
+        this.towerUser = this.user.apartment[0];
+        //COLOCAR EL VALOR DE LOS DATOS IGUAL A LA TORRE QUE CORRESPONDA
+      }
+    });
+    this.setData(this.ELEMENT_DATA);
+    // this.dataSource = new MatTableDataSource(this.ELEMENT_DATA);
 
     this.dataSource.filterPredicate = (data: any, filter: string) => {
       let ageRange = filter.split('-');
       let minAge = +ageRange[0];
       let maxAge = +ageRange[1];
-      let age; //= new Date().getFullYear() - new Date('1998-12-21').getFullYear();
+      let age;
       age =
         new Date().getMonth() > new Date(data.dateOfBirth).getMonth() ||
         (new Date().getMonth() == new Date(data.dateOfBirth).getMonth() &&
@@ -78,6 +93,7 @@ export class SearchComponent implements OnInit {
           : new Date().getFullYear() -
             new Date(data.dateOfBirth).getFullYear() -
             1;
+      console.log(age, minAge, maxAge);
       return minAge <= age && age <= maxAge;
     };
     this.mens = this.ELEMENT_DATA.filter((data) => {
@@ -118,21 +134,25 @@ export class SearchComponent implements OnInit {
     let filter = [];
     if (this.gender == 'M') {
       filter = this.mens;
-      this.dataSource = new MatTableDataSource(this.mens);
+      this.setData(this.mens);
+      // this.dataSource = new MatTableDataSource(this.mens);
     } else if (this.gender == 'F') {
       filter = this.womens;
-      this.dataSource = new MatTableDataSource(this.womens);
+      // this.dataSource = new MatTableDataSource(this.womens);
+      this.setData(this.womens);
     }
     if (this.tower == 'A') {
       filter = this.dataSource.filteredData.filter((data) => {
         return data.apartment[0] == 'A';
       });
-      this.dataSource = new MatTableDataSource(filter);
+      // this.dataSource = new MatTableDataSource(filter);
+      this.setData(filter);
     } else if (this.tower == 'B') {
       filter = this.dataSource.filteredData.filter((data) => {
         return data.apartment[0] == 'B';
       });
-      this.dataSource = new MatTableDataSource(filter);
+      // this.dataSource = new MatTableDataSource(filter);
+      this.setData(filter);
     }
   }
 
@@ -145,22 +165,26 @@ export class SearchComponent implements OnInit {
 
     if (this.tower == 'A') {
       filter = this.a;
-      this.dataSource = new MatTableDataSource(this.a);
+      // this.dataSource = new MatTableDataSource(this.a);
+      this.setData(this.a);
     } else if (this.tower == 'B') {
       filter = this.b;
-      this.dataSource = new MatTableDataSource(this.b);
+      // this.dataSource = new MatTableDataSource(this.b);
+      this.setData(this.b);
     }
 
     if (this.gender == 'M') {
       filter = this.dataSource.filteredData.filter((data) => {
         return data.gender == 'M';
       });
-      this.dataSource = new MatTableDataSource(filter);
+      // this.dataSource = new MatTableDataSource(filter);
+      this.setData(filter);
     } else if (this.gender == 'F') {
       filter = this.dataSource.filteredData.filter((data) => {
         return data.gender == 'F';
       });
-      this.dataSource = new MatTableDataSource(filter);
+      // this.dataSource = new MatTableDataSource(filter);
+      this.setData(filter);
     }
   }
   limpiarGenero() {
@@ -170,14 +194,17 @@ export class SearchComponent implements OnInit {
       filter = this.ELEMENT_DATA.filter((data: any) => {
         return data.apartment[0] == 'A';
       });
-      this.dataSource = new MatTableDataSource(filter);
+      // this.dataSource = new MatTableDataSource(filter);
+      this.setData(filter);
     } else if (this.tower == 'B') {
       filter = this.ELEMENT_DATA.filter((data: any) => {
         return data.apartment[0] == 'B';
       });
-      this.dataSource = new MatTableDataSource(filter);
+      // this.dataSource = new MatTableDataSource(filter);
+      this.setData(filter);
     } else {
-      this.dataSource = new MatTableDataSource(this.ELEMENT_DATA);
+      // this.dataSource = new MatTableDataSource(this.ELEMENT_DATA);
+      this.setData(this.ELEMENT_DATA);
     }
   }
   limpiarTorre() {
@@ -188,15 +215,23 @@ export class SearchComponent implements OnInit {
       filter = this.ELEMENT_DATA.filter((data: any) => {
         return data.gender == 'M';
       });
-      this.dataSource = new MatTableDataSource(filter);
+      // this.dataSource = new MatTableDataSource(filter);
+      this.setData(filter);
     } else if (this.gender == 'F') {
       filter = this.ELEMENT_DATA.filter((data: any) => {
         return data.gender == 'F';
       });
-      this.dataSource = new MatTableDataSource(filter);
+      // this.dataSource = new MatTableDataSource(filter);
+      this.setData(filter);
     } else {
-      this.dataSource = new MatTableDataSource(this.ELEMENT_DATA);
+      // this.dataSource = new MatTableDataSource(this.ELEMENT_DATA);
+      this.setData(this.ELEMENT_DATA);
     }
+  }
+
+  setData(data: any) {
+    this.dataSource = new MatTableDataSource(data);
+    this.dataSource.paginator = this.paginator;
   }
   export() {
     this.exportExcel.exportExcel(this.dataSource.filteredData);

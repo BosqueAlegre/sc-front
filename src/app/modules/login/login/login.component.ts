@@ -47,16 +47,17 @@ export class LoginComponent implements OnInit {
   ngOnInit() {}
 
   disabledValid(s: any) {
-    if (s == 'Administrador') {
+    if (s == 'Administrador' || s === 'calle') {
       this.form.controls['email'].setValidators([Validators.required]);
-    } else if (s === 'calle' || s === 'familia') {
+    } else if (s === 'familia') {
       this.form.controls['ci'].setValidators([Validators.required]);
     }
   }
 
   ingresar() {
-    const sendDate = {...this.form.value};
-    if (this.user === 'Administrador' || this.user === 'calle') delete sendDate.ci;
+    const sendDate = { ...this.form.value };
+    if (this.user === 'Administrador' || this.user === 'calle')
+      delete sendDate.ci;
     else {
       delete sendDate.email;
       sendDate.ci = `V${sendDate.ci}`;
@@ -66,8 +67,9 @@ export class LoginComponent implements OnInit {
   }
 
   recoverPassword() {
-    const sendDate = {...this.formRecupera.value};
-    if (this.user === 'Administrador' || this.user === 'calle') delete sendDate.ci;
+    const sendDate = { ...this.formRecupera.value };
+    if (this.user === 'Administrador' || this.user === 'calle')
+      delete sendDate.ci;
     else {
       delete sendDate.email;
       sendDate.ci = `V${sendDate.ci}`;

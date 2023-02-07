@@ -22,6 +22,7 @@ export interface IUser {
   boss?: any;
   family?: string;
   apartment?: string;
+  role?: string;
 }
 @Component({
   selector: 'app-user-registrer',
