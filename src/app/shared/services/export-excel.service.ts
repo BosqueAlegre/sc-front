@@ -201,4 +201,9 @@ export class ExportExcelService {
     const blob = new Blob([data], { type: typeDocument });
     saveAs(blob, nameDocument + '.xlsx');
   }
+
+  async downloadModel() {
+    const { workbook, worksheet } = await this.getWorkbook();
+    this.saveExport(workbook);
+  }
 }

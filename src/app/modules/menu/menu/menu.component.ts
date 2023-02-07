@@ -7,9 +7,7 @@ import { AuthService } from 'src/app/services/auth.service';
   styleUrls: ['./menu.component.scss'],
 })
 export class MenuComponent implements OnInit {
-  constructor(
-    private _authService: AuthService
-  ) {}
+  constructor(private _authService: AuthService) {}
 
   ngOnInit() {}
   menuItem = [
@@ -17,6 +15,13 @@ export class MenuComponent implements OnInit {
       title: 'Registros',
       url: 'search',
       icon: 'search-outline',
+      exact: true,
+      click: null,
+    },
+    {
+      title: 'Agregar Carga',
+      url: 'register',
+      icon: 'note_add',
       exact: true,
       click: null,
     },

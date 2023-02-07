@@ -145,4 +145,8 @@ export class UserRegistrerComponent implements OnInit {
       });
     };
   }
+
+  downloadModel() {
+    this.exportExcel.downloadModel();
+  }
 }
