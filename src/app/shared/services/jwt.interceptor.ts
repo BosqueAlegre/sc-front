@@ -10,18 +10,16 @@ import {
 import { Observable } from 'rxjs';
 import { from } from 'rxjs';
 import { mergeMap } from 'rxjs/operators';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
     providedIn: 'root',
 })
 export class JwtInterceptor implements HttpInterceptor {
-
-    TOKEN_KEY: string = 'access_token';
-
     constructor(private storage: Storage) {}
 
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-        let promise = this.storage.get(this.TOKEN_KEY);
+        let promise = this.storage.get(environment.token_key);
 
         return from(promise)
         .pipe(

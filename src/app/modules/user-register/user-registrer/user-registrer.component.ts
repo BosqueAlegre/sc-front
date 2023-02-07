@@ -32,7 +32,7 @@ export class UserRegistrerComponent implements OnInit {
     private modalCtrl: ModalController,
     public platform: Platform,
     public exportExcel: ExportExcelService,
-    public authService: AccountService
+    public accountService: AccountService
   ) {}
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
@@ -48,7 +48,7 @@ export class UserRegistrerComponent implements OnInit {
   dataSource: MatTableDataSource<IUser>;
   ngOnInit() {
     this.setData(this.borrarTabla);
-    this.authService.me().subscribe((res) => {
+    this.accountService.me().subscribe((res) => {
       console.log(res);
     });
   }
@@ -138,7 +138,7 @@ export class UserRegistrerComponent implements OnInit {
       formData.append('file', file);
       let family = await this.exportExcel.importFamilyCharge(file);
       console.log(family);
-      // this.familyService.addMembers(this.authService.currentUser,family).subscribe((res)=>{
+      // this.familyService.addMembers(this.accountService.currentUser,family).subscribe((res)=>{
       //   newFamily = res
       // })
     };

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpBackend, HttpClient } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import { pluck } from 'rxjs/operators';
 
@@ -8,14 +8,9 @@ import { pluck } from 'rxjs/operators';
 })
 export class AccountService {
   url = environment.url_api;
-  currentUser: any;
 
-  // constructor(private http: HttpClient) {}
-  private http: HttpClient;
+  constructor(private http: HttpClient) {}
 
-  constructor(private handler: HttpBackend) {
-    this.http = new HttpClient(this.handler);
-  }
   // INFORMACION DEL USUARIO
   me() {
     return this.http
@@ -27,7 +22,7 @@ export class AccountService {
   // DEBE TENER UNA SESION ACTIVA
   changePassword(password: string, newPassword: string) {
     return this.http
-      .post<{ message: string }>(`${this.url}/ccount/change-password`, {
+      .post<{ message: string }>(`${this.url}/account/change-password`, {
         password,
         newPassword,
       })
