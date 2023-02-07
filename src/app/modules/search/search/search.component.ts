@@ -3,10 +3,8 @@ import { FormBuilder } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { filter } from 'rxjs';
 import { AccountService } from 'src/app/services/account.service';
 import { ExportExcelService } from 'src/app/shared/services/export-excel.service';
-import { IUser } from '../../user-register/user-registrer/user-registrer.component';
 
 @Component({
   selector: 'app-search',
@@ -29,7 +27,7 @@ export class SearchComponent implements OnInit {
     'dateOfBirth',
   ];
   dataSource: MatTableDataSource<any>;
-  ELEMENT_DATA: IUser[] = [
+  ELEMENT_DATA: any[] = [
     {
       _id: 'sdasdasd',
       name: 'Victor',
