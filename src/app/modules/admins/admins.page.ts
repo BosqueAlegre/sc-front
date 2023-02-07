@@ -96,4 +96,10 @@ export class AdminsPage implements OnInit {
     await alert.present();
   }
 
+  activateFamilyBurden(value: boolean) {
+    this._adminsService.updateConfig({ familyBurden: value }).subscribe(() => {
+      this.config.familyBurden = value;
+    })
+  }
+
 }

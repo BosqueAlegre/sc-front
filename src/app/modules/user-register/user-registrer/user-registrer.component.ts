@@ -80,22 +80,20 @@ export class UserRegistrerComponent implements OnInit {
   async openModal() {
     const modal = await this.modalCtrl.create({
       component: RegistrerMemberComponent,
-      componentProps: { datos: { dato: null, edit: false } },
+      componentProps: { data: { edit: false } },
     });
     modal.present();
 
     const { data } = await modal.onWillDismiss();
-    data.dateOfBirth = +data.dateOfBirth;
-    if (data) {
-      this.borrarTabla.unshift(data);
-      this.setData(this.borrarTabla);
-    }
+    if (data) {}
   }
+
   setData(users: IUser[]) {
     this.borrarTabla = users;
     this.dataSource = new MatTableDataSource(users);
     this.dataSource.paginator = this.paginator;
   }
+
   borrarTabla: IUser[] = [
     {
       _id: 'sdasdasd',

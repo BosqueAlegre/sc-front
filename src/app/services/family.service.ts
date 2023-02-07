@@ -15,6 +15,11 @@ export class FamilyService {
   ) { }
 
   // AGREGAR/ACTUALIZAR CARGA FAMILIAR
+  addMember(idBoss: string, member: NewMember) {
+    return this.http.post<{ message: string, person: Person }>(`${this.url}/family-boss/${idBoss}/add-member`, member);
+  }
+
+  // AGREGAR/ACTUALIZAR CARGA FAMILIAR
   addMembers(idBoss: string, members: NewMember[]) {
     return this.http.post<{ message: string, persons: Person[] }>(`${this.url}/family-boss/${idBoss}/family`, { family: members });
   }
