@@ -34,4 +34,8 @@ export class FamilyService {
   updateFamilyBoss(idBoss: string, data: any) {
     return this.http.put<{ message: string, person: Person }>(`${this.url}/family-boss/${idBoss}`, data);
   }
+
+  updateMember(idBoss: string, idMember: string, data: any) {
+    return this.http.put<{ message: string, person: Person }>(`${this.url}/family-boss/${idBoss}/family/${idMember}`, data);
+  }
 }

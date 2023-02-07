@@ -93,18 +93,15 @@ export class UserRegistrerComponent implements OnInit {
     if (data) this.load();
   }
 
-  async edit(dat: any) {
+  async edit(person: Person) {
     const modal = await this.modalCtrl.create({
       component: RegistrerMemberComponent,
-      componentProps: { datos: { dato: dat, edit: true } },
+      componentProps: { data: { ...person, boss: this.user.id, edit: true } },
     });
     modal.present();
 
     const { data } = await modal.onWillDismiss();
-    console.log(data);
-    if (data) {
-      //EDITAR LLAMAR A SERVICIO Y PASAS EL ID
-    }
+    if (data) this.load();
   }
 
   async deleteMember(person: Person) {

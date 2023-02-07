@@ -84,34 +84,38 @@ export class RegistrerMemberComponent implements OnInit {
   }
 
   confirm() {
-    const sendData = JSON.parse(JSON.stringify(this.form.value));
-    sendData.dateOfBirth = Date.parse(
-      sendData.dateOfBirth.replace(/^(\d{4})-(\d{2})-(\d{2})$/g, '$2/$3/$1')
-    );
-    if (!this.data.search) {
-      this._familyService
-        .addMember(this.data.boss, sendData)
-        .subscribe(async (response) => {
-          const alert = await this._alertController.create({
-            header: 'Miembro agregado',
-            message: response.message,
-            buttons: ['Ok'],
-          });
+    this.data.edit
+    ? this.updateMember()
+    : this.addMember();
+  }
 
-          await alert.present();
-          return this.modalCtrl.dismiss(response.person);
-        });
-    } else {
-      sendData.password = sendData.ci.slice(1, sendData.ci.length);
-      this._adminsService.createFamilyBoss(sendData).subscribe(async (res) => {
-        const alert = await this._alertController.create({
-          header: 'Jefe de familia agregado',
-          message: res.message,
-          buttons: ['Ok'],
-        });
-        await alert.present();
-        return this.modalCtrl.dismiss(res.user);
+  private addMember() {
+    const sendData = JSON.parse(JSON.stringify(this.form.value))
+    sendData.dateOfBirth = Date.parse(sendData.dateOfBirth.replace(/^(\d{4})-(\d{2})-(\d{2})$/g, '$2/$3/$1'));
+    this._familyService.addMember(this.data.boss, sendData).subscribe(async response => {
+      const alert = await this._alertController.create({
+        header: 'Miembro agregado',
+        message: response.message,
+        buttons: ['Ok']
       });
-    }
+
+      await alert.present();
+      return this.modalCtrl.dismiss(response.person);
+    })
+  }
+
+  private updateMember() {
+    const sendData = JSON.parse(JSON.stringify(this.form.value))
+    sendData.dateOfBirth = Date.parse(sendData.dateOfBirth.replace(/^(\d{4})-(\d{2})-(\d{2})$/g, '$2/$3/$1'));
+    this._familyService.updateMember(this.data.boss, this.data.id, sendData).subscribe(async response => {
+      const alert = await this._alertController.create({
+        header: 'Miembro actualizado',
+        message: response.message,
+        buttons: ['Ok']
+      });
+
+      await alert.present();
+      return this.modalCtrl.dismiss(response.person);
+    })
   }
 }

@@ -1,6 +1,12 @@
 <ion-header>
   <ion-toolbar color="secondary">
-    <ion-title class="pd0">Agregar miembro al grupo familiar</ion-title>
+    <ion-title class="pd0">
+      {{
+        data.edit
+        ? 'Actualizar miembro del grupo familiar'
+        : 'Agregar miembro al grupo familiar'
+      }}
+    </ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -98,16 +104,9 @@
           ></ion-item>
         </ion-col>
 
-        <ion-col class="buttons" size="12" style="text-align: right">
-          <ion-button
-            (click)="cancel()"
-            color="danger"
-            style="margin-right: 0.6rem"
-            >Cancelar</ion-button
-          >
-          <ion-button (click)="confirm()" [disabled]="form.invalid"
-            >Agregar</ion-button
-          >
+        <ion-col class="buttons" size="12" style="text-align: right;">
+          <ion-button (click)="cancel()" color="danger" style="margin-right: .6rem;">Cancelar</ion-button>
+          <ion-button (click)="confirm()" [disabled]="form.invalid">{{ data.edit ? 'Actualizar' : 'Agregar' }}</ion-button>
         </ion-col>
       </ion-row>
     </ion-grid>
