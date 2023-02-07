@@ -141,12 +141,10 @@ export class ExportExcelService {
     let letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I'];
     let n = 0;
     for (let i = 2; i <= array.length + 1; i++) {
-      console.log(array[n].name, array.length + 2, n, i);
       for (let letter of letters) {
         switch (letter) {
           case 'A':
             worksheet.getCell(`${letter}${i}`).value = array[n].ci;
-            console.log(worksheet.getCell(`${letter}${i}`).value);
             break;
           case 'B':
             worksheet.getCell(`${letter}${i}`).value = array[n].name;
