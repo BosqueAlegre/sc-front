@@ -45,46 +45,72 @@ export class ExportExcelService {
       for (let letter of letters) {
         switch (letter) {
           case 'A':
-            user.ci = String(worksheet.getCell(`${letter}${number}`).value);
+            user.ci = String(
+              worksheet.getCell(`${letter}${number}`).value
+                ? worksheet.getCell(`${letter}${number}`).value
+                : 'Sin C.I'
+            );
             break;
           case 'B':
-            user.name = String(worksheet.getCell(`${letter}${number}`).value);
+            user.name = String(
+              worksheet.getCell(`${letter}${number}`).value
+                ? worksheet.getCell(`${letter}${number}`).value
+                : 'Sin nombre'
+            );
             break;
           case 'C':
             user.patherLastName = String(
               worksheet.getCell(`${letter}${number}`).value
+                ? worksheet.getCell(`${letter}${number}`).value
+                : 'Sin apellido paterno'
             );
 
             break;
           case 'D':
             user.motherLastName = String(
               worksheet.getCell(`${letter}${number}`).value
+                ? worksheet.getCell(`${letter}${number}`).value
+                : 'Sin apellido materno'
             );
 
             break;
 
           case 'E':
-            let email: any = worksheet.getCell(`${letter}${number}`).value;
-            user.email = email.text;
+            let email: any = worksheet.getCell(`${letter}${number}`).value
+              ? worksheet.getCell(`${letter}${number}`).value
+              : false;
+            user.email = !email ? 'Sin correo' : email.text;
 
             break;
           case 'F':
-            user.phone = String(worksheet.getCell(`${letter}${number}`).value);
+            user.phone = String(
+              worksheet.getCell(`${letter}${number}`).value
+                ? worksheet.getCell(`${letter}${number}`).value
+                : 'Sin télefono'
+            );
 
             break;
           case 'G':
-            user.gender = String(worksheet.getCell(`${letter}${number}`).value);
+            user.gender = String(
+              worksheet.getCell(`${letter}${number}`).value
+                ? worksheet.getCell(`${letter}${number}`).value
+                : 'Sin Género'
+            );
 
             break;
           case 'H':
-            user.dateOfBirth = new Date(
-              String(worksheet.getCell(`${letter}${number}`).value)
-            ).getTime();
+            user.dateOfBirth = worksheet.getCell(`${letter}${number}`).value
+              ? new Date(
+                  String(worksheet.getCell(`${letter}${number}`).value)
+                ).getTime()
+              : 0;
 
             break;
           case 'I':
             user.apartment = String(
               worksheet.getCell(`${letter}${number}`).value
+                ? worksheet.getCell(`${letter}${number}`).value
+                : 'Sin apartamento'
             );
 
             break;

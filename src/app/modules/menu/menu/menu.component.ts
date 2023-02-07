@@ -21,7 +21,7 @@ export class MenuComponent implements OnInit {
     {
       title: 'Agregar Carga',
       url: 'register',
-      icon: 'note_add',
+      icon: 'document-outline',
       exact: true,
       click: null,
     },
